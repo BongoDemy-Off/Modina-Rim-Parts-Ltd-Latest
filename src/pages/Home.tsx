@@ -21,9 +21,11 @@ export default function Home() {
               alt="High-Tech Rim"
               className="w-full h-full object-cover object-center blur-[3px]"
               onError={(e) => {
-                // Fallback to Unsplash if the user hasn't uploaded their image yet
-                e.currentTarget.src = "https://images.unsplash.com/photo-1600705722908-bab1e6190b05?q=80&w=2070&auto=format&fit=crop";
-                e.currentTarget.classList.add('mix-blend-luminosity');
+                // Prevent infinite loop if fallback also fails
+                if (!e.currentTarget.src.includes('unsplash.com')) {
+                  e.currentTarget.src = "https://images.unsplash.com/photo-1600705722908-bab1e6190b05?q=80&w=2070&auto=format&fit=crop";
+                  e.currentTarget.classList.add('mix-blend-luminosity');
+                }
               }}
             />
           </motion.div>
