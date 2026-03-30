@@ -17,7 +17,7 @@ export default function Home() {
             className="absolute w-[150vw] h-[150vw] md:w-[120vw] md:h-[120vw] opacity-20 mix-blend-screen"
           >
             <img 
-              src="/hero-rim.png" 
+              src="/hero-image.jpg" 
               alt="High-Tech Rim"
               className="w-full h-full object-cover object-center blur-[3px]"
               onError={(e) => {
