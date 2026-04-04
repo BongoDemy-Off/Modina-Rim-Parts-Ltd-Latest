@@ -9,11 +9,19 @@
   --color-modina-dark: #111318;
   --color-modina-panel: #1A1D24;
   --color-modina-slate: #7A8B9E;
+  --color-modina-gray: #16181F;
+  --color-modina-light: #E8EAF0;
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+    overflow-y: scroll;
+  }
+
   body {
     @apply bg-modina-dark text-white font-sans antialiased;
+    overflow-x: hidden;
   }
   
   h1, h2, h3, h4, h5, h6 {
