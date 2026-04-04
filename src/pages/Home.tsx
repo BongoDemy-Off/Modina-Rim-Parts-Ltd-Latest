@@ -154,31 +154,39 @@ export default function Home() {
       {/* 2. Corporate Identity (About Us Teaser) */}
       <section className="py-20 lg:py-32 bg-modina-dark relative border-t border-white/5">
         <div className="container mx-auto px-6 md:px-12 lg:px-24">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            <motion.div 
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-            >
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-white mb-6 lg:mb-8 uppercase tracking-wide">
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={{
+              visible: { transition: { staggerChildren: 0.2 } }
+            }}
+            className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center"
+          >
+            <div className="flex flex-col">
+              <motion.h2 
+                variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } } }}
+                className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-white mb-6 lg:mb-8 uppercase tracking-wide"
+              >
                 Forging the Backbone of <br />
                 <span className="text-modina-slate">Modern Mobility</span>
-              </h2>
-              <p className="text-gray-400 text-base sm:text-lg leading-relaxed mb-8 lg:mb-10">
+              </motion.h2>
+              <motion.p 
+                variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } } }}
+                className="text-gray-400 text-base sm:text-lg leading-relaxed mb-8 lg:mb-10"
+              >
                 For over two decades, Modina Rim & Parts Ltd. has stood at the forefront of automotive manufacturing. Our commitment to precision engineering, rigorous quality control, and sustainable practices has made us the trusted partner for distributors and manufacturers worldwide.
-              </p>
-              <Link to="/about" className="inline-flex items-center gap-4 text-white font-bold tracking-[0.15em] uppercase text-xs sm:text-sm hover:text-modina-red transition-colors group">
-                Discover Our Story
-                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-2 transition-transform" />
-              </Link>
-            </motion.div>
+              </motion.p>
+              <motion.div variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } } }}>
+                <Link to="/about" className="inline-flex items-center gap-4 text-white font-bold tracking-[0.15em] uppercase text-xs sm:text-sm hover:text-modina-red transition-colors group">
+                  Discover Our Story
+                  <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-2 transition-transform" />
+                </Link>
+              </motion.div>
+            </div>
             
             <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
+              variants={{ hidden: { opacity: 0, scale: 0.95, y: 30 }, visible: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } } }}
               className="relative h-[400px] lg:h-[600px] bg-modina-panel border border-white/5"
             >
               <img 
@@ -200,29 +208,38 @@ export default function Home() {
                 </div>
               </div>
             </motion.div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* 3. Categorized Product Showcase */}
       <section className="py-20 lg:py-32 bg-modina-panel border-y border-white/5">
-        <div className="container mx-auto px-6 md:px-12 lg:px-24">
+        <motion.div 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={{
+            visible: { transition: { staggerChildren: 0.15 } }
+          }}
+          className="container mx-auto px-6 md:px-12 lg:px-24"
+        >
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 lg:mb-20">
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="max-w-2xl"
-            >
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-white mb-4 lg:mb-6 uppercase tracking-wide">
+            <div className="max-w-2xl">
+              <motion.h2 
+                variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } } }}
+                className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-white mb-4 lg:mb-6 uppercase tracking-wide"
+              >
                 Engineered for <span className="text-modina-slate">Performance</span>
-              </h2>
-              <p className="text-gray-400 text-base sm:text-lg">Explore our comprehensive range of precision-manufactured components, designed to meet the rigorous demands of the global automotive industry.</p>
-            </motion.div>
+              </motion.h2>
+              <motion.p 
+                variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } } }}
+                className="text-gray-400 text-base sm:text-lg"
+              >
+                Explore our comprehensive range of precision-manufactured components, designed to meet the rigorous demands of the global automotive industry.
+              </motion.p>
+            </div>
             <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
+              variants={{ hidden: { opacity: 0, x: 20 }, visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: "easeOut" } } }}
             >
               <Link to="/products" className="inline-flex items-center gap-4 text-white font-bold tracking-[0.15em] uppercase text-xs sm:text-sm hover:text-modina-red transition-colors group">
                 Full Product Range
@@ -240,10 +257,7 @@ export default function Home() {
             ].map((category, idx) => (
               <motion.div 
                 key={idx}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.1, duration: 0.5 }}
+                variants={{ hidden: { opacity: 0, y: 40 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } } }}
                 className="group relative h-[350px] sm:h-[400px] lg:h-[500px] bg-modina-dark border border-white/5 cursor-pointer overflow-hidden"
               >
                 <img 
@@ -263,26 +277,29 @@ export default function Home() {
               </motion.div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* 4. Quality Assurance & Certifications */}
       <section className="py-20 lg:py-32 bg-modina-dark relative overflow-hidden">
-        <div className="container mx-auto px-6 md:px-12 lg:px-24 relative z-10">
+        <motion.div 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={{
+            visible: { transition: { staggerChildren: 0.15 } }
+          }}
+          className="container mx-auto px-6 md:px-12 lg:px-24 relative z-10"
+        >
           <div className="text-center max-w-3xl mx-auto mb-16 lg:mb-20">
             <motion.h2 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } } }}
               className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-white mb-4 lg:mb-6 uppercase tracking-wide"
             >
               The <span className="text-modina-slate">Trust</span> Factor
             </motion.h2>
             <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
+              variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } } }}
               className="text-gray-400 text-base sm:text-lg"
             >
               Quality is not an act, it is a habit. Our rigorous quality assurance process ensures that every component leaving our facility meets global standards.
@@ -297,10 +314,7 @@ export default function Home() {
             ].map((feature, idx) => (
               <motion.div 
                 key={idx}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.2 }}
+                variants={{ hidden: { opacity: 0, y: 40 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } } }}
                 className="bg-modina-panel border border-white/5 p-8 lg:p-10 hover:border-modina-red/50 transition-colors group"
               >
                 <div className="w-14 h-14 lg:w-16 lg:h-16 bg-modina-dark flex items-center justify-center mb-6 lg:mb-8 border border-white/10 group-hover:border-modina-red transition-colors">
@@ -311,26 +325,41 @@ export default function Home() {
               </motion.div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* 5. The Corporate Download Center */}
       <section className="py-20 lg:py-32 bg-modina-panel border-y border-white/5">
-        <div className="container mx-auto px-6 md:px-12 lg:px-24">
+        <motion.div 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={{
+            visible: { transition: { staggerChildren: 0.15 } }
+          }}
+          className="container mx-auto px-6 md:px-12 lg:px-24"
+        >
           <div className="bg-modina-dark border border-white/5 p-8 sm:p-12 md:p-20 relative overflow-hidden">
             <div className="absolute right-0 top-0 w-1/2 h-full bg-gradient-to-l from-modina-red/5 to-transparent pointer-events-none"></div>
             
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center relative z-10">
-              <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-              >
-                <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-white mb-4 lg:mb-6 uppercase tracking-wide">Equipping Our Partners.</h2>
-                <p className="text-gray-400 text-base sm:text-lg mb-8 lg:mb-12 max-w-md leading-relaxed">
+              <div className="flex flex-col">
+                <motion.h2 
+                  variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } } }}
+                  className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-white mb-4 lg:mb-6 uppercase tracking-wide"
+                >
+                  Equipping Our Partners.
+                </motion.h2>
+                <motion.p 
+                  variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } } }}
+                  className="text-gray-400 text-base sm:text-lg mb-8 lg:mb-12 max-w-md leading-relaxed"
+                >
                   Access technical spec sheets, high-res ISO certificates, and offline product catalogs to streamline your procurement process.
-                </p>
-                <div className="flex flex-wrap items-center gap-4 sm:gap-6">
+                </motion.p>
+                <motion.div 
+                  variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } } }}
+                  className="flex flex-wrap items-center gap-4 sm:gap-6"
+                >
                   <button className="bg-modina-red text-white px-6 sm:px-8 py-3 sm:py-4 font-bold tracking-[0.15em] text-xs sm:text-sm uppercase hover:bg-red-700 transition-colors flex items-center gap-2 sm:gap-3">
                     <Download className="w-4 h-4 sm:w-5 sm:h-5" />
                     2026 Catalog
@@ -338,35 +367,52 @@ export default function Home() {
                   <Link to="/downloads" className="text-white font-bold tracking-[0.15em] text-xs sm:text-sm uppercase hover:text-modina-red transition-colors">
                     View Tech Specs
                   </Link>
-                </div>
-              </motion.div>
+                </motion.div>
+              </div>
               
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                className="grid grid-cols-2 gap-4 sm:gap-6"
-              >
+              <div className="grid grid-cols-2 gap-4 sm:gap-6">
                 {[1, 2, 3, 4].map((item) => (
-                  <div key={item} className="bg-modina-panel border border-white/5 p-6 sm:p-8 flex flex-col items-center justify-center gap-3 sm:gap-4 hover:border-modina-red/30 transition-colors cursor-pointer group">
+                  <motion.div 
+                    key={item} 
+                    variants={{ hidden: { opacity: 0, scale: 0.9, y: 20 }, visible: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } } }}
+                    className="bg-modina-panel border border-white/5 p-6 sm:p-8 flex flex-col items-center justify-center gap-3 sm:gap-4 hover:border-modina-red/30 transition-colors cursor-pointer group"
+                  >
                     <div className="w-12 h-12 sm:w-14 sm:h-14 bg-modina-dark flex items-center justify-center group-hover:scale-110 transition-transform">
                       <Download className="w-5 h-5 sm:w-6 sm:h-6 text-modina-slate group-hover:text-modina-red transition-colors" />
                     </div>
                     <span className="text-[10px] sm:text-xs font-bold tracking-[0.15em] text-white uppercase text-center">Spec Sheet 0{item}</span>
-                  </div>
+                  </motion.div>
                 ))}
-              </motion.div>
+              </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* 6. Global Trust (Testimonials) */}
       <section className="py-20 lg:py-32 bg-modina-dark">
-        <div className="container mx-auto px-6 md:px-12 lg:px-24">
+        <motion.div 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={{
+            visible: { transition: { staggerChildren: 0.15 } }
+          }}
+          className="container mx-auto px-6 md:px-12 lg:px-24"
+        >
           <div className="text-center mb-16 lg:mb-20">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-white mb-4 lg:mb-6 uppercase tracking-wide">Global <span className="text-modina-slate">Trust</span></h2>
-            <p className="text-gray-400 text-base sm:text-lg">What our corporate partners say about us.</p>
+            <motion.h2 
+              variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } } }}
+              className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-white mb-4 lg:mb-6 uppercase tracking-wide"
+            >
+              Global <span className="text-modina-slate">Trust</span>
+            </motion.h2>
+            <motion.p 
+              variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } } }}
+              className="text-gray-400 text-base sm:text-lg"
+            >
+              What our corporate partners say about us.
+            </motion.p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
@@ -377,10 +423,7 @@ export default function Home() {
             ].map((testimonial, idx) => (
               <motion.div 
                 key={idx}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.2 }}
+                variants={{ hidden: { opacity: 0, y: 40 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } } }}
                 className="bg-modina-panel border border-white/5 p-8 lg:p-10 relative"
               >
                 <Quote className="absolute top-6 right-6 lg:top-8 lg:right-8 w-8 h-8 lg:w-12 lg:h-12 text-white/5" />
@@ -399,32 +442,45 @@ export default function Home() {
               </motion.div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* 7. Pre-Footer Call to Action */}
       <section className="py-24 lg:py-40 bg-modina-panel relative overflow-hidden border-t border-white/5">
-        <div className="container mx-auto px-6 md:px-12 lg:px-24 relative z-10 text-center">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="max-w-4xl mx-auto"
-          >
-            <h2 className="text-4xl sm:text-5xl md:text-7xl font-display font-bold text-white mb-6 lg:mb-8 uppercase tracking-wide">
+        <motion.div 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={{
+            visible: { transition: { staggerChildren: 0.15 } }
+          }}
+          className="container mx-auto px-6 md:px-12 lg:px-24 relative z-10 text-center"
+        >
+          <div className="max-w-4xl mx-auto flex flex-col items-center">
+            <motion.h2 
+              variants={{ hidden: { opacity: 0, scale: 0.9, y: 30 }, visible: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } } }}
+              className="text-4xl sm:text-5xl md:text-7xl font-display font-bold text-white mb-6 lg:mb-8 uppercase tracking-wide"
+            >
               Partner with <br />
               <span className="text-modina-slate">Modina Rim & Parts</span>
-            </h2>
-            <p className="text-lg lg:text-xl text-gray-400 mb-10 lg:mb-12 max-w-2xl mx-auto">Let's build the future of mobility together. Connect with our experts to discuss your manufacturing needs.</p>
-            <Link 
-              to="/contact" 
-              className="inline-flex items-center gap-3 sm:gap-4 bg-modina-red text-white px-8 sm:px-12 py-4 sm:py-5 font-bold tracking-[0.2em] text-xs sm:text-sm uppercase hover:bg-red-700 transition-colors shadow-[0_0_30px_rgba(229,37,37,0.3)]"
+            </motion.h2>
+            <motion.p 
+              variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } } }}
+              className="text-lg lg:text-xl text-gray-400 mb-10 lg:mb-12 max-w-2xl mx-auto"
             >
-              Contact Sales Team
-              <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
-            </Link>
-          </motion.div>
-        </div>
+              Let's build the future of mobility together. Connect with our experts to discuss your manufacturing needs.
+            </motion.p>
+            <motion.div variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } } }}>
+              <Link 
+                to="/contact" 
+                className="inline-flex items-center gap-3 sm:gap-4 bg-modina-red text-white px-8 sm:px-12 py-4 sm:py-5 font-bold tracking-[0.2em] text-xs sm:text-sm uppercase hover:bg-red-700 transition-colors shadow-[0_0_30px_rgba(229,37,37,0.3)]"
+              >
+                Contact Sales Team
+                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
+              </Link>
+            </motion.div>
+          </div>
+        </motion.div>
       </section>
     </div>
   );
