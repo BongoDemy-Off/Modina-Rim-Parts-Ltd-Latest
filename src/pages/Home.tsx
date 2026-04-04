@@ -8,19 +8,21 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-modina-dark text-white font-sans">
       {/* 1. High-Impact Hero Section */}
-      <section className="relative min-h-screen w-full flex items-center bg-modina-dark overflow-hidden pt-36 lg:pt-40 pb-24">
+      <section className="relative min-h-screen w-full flex items-center bg-modina-dark overflow-hidden pt-[136px] lg:pt-[136px] pb-24">
         {/* Background Image */}
         <div className="absolute inset-0 z-0 flex items-center justify-center overflow-hidden bg-modina-dark">
           <motion.div
             animate={{ rotate: 360 }}
-            transition={{ duration: 150, repeat: Infinity, ease: "linear" }}
-            className="absolute w-[150vw] h-[150vw] md:w-[120vw] md:h-[120vw] opacity-20 mix-blend-screen"
+            transition={{ duration: 200, repeat: Infinity, ease: "linear" }}
+            className="absolute w-[100vw] h-[100vw] md:w-[80vw] md:h-[80vw] opacity-15 mix-blend-screen"
             style={{ willChange: 'transform' }}
           >
             <img 
               src="/hero-image.jpg" 
               alt="High-Tech Rim"
               className="w-full h-full object-cover object-center blur-[3px]"
+              loading="eager"
+              fetchPriority="high"
               onError={(e) => {
                 // Prevent infinite loop if fallback also fails
                 if (!e.currentTarget.src.includes('unsplash.com')) {
@@ -94,7 +96,7 @@ export default function Home() {
               
               <motion.h1 
                 variants={{ hidden: { opacity: 0, y: 40, filter: 'blur(10px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] } } }}
-                className="text-5xl sm:text-7xl lg:text-8xl xl:text-[8rem] font-display font-bold text-white tracking-tighter mb-8 uppercase leading-[0.85] text-center drop-shadow-2xl"
+                className="text-5xl sm:text-7xl lg:text-8xl xl:text-[7rem] font-display font-bold text-white tracking-tighter mb-8 uppercase leading-[0.9] text-center drop-shadow-2xl"
               >
                 Engineering <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-b from-white via-gray-200 to-gray-500 drop-shadow-lg">Excellence</span>
@@ -131,7 +133,7 @@ export default function Home() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.2, duration: 1 }}
-          className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 hidden sm:flex flex-col items-center gap-3"
+          className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-3"
         >
           <span className="text-[9px] font-bold tracking-[0.3em] uppercase text-gray-500">Scroll</span>
           <div className="w-[1px] h-12 bg-gradient-to-b from-gray-500 to-transparent"></div>
@@ -146,6 +148,7 @@ export default function Home() {
             Global Shipping and Free Returns
           </span>
         </div>
+        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-modina-red/30 to-transparent" />
       </section>
 
       {/* 2. Corporate Identity (About Us Teaser) */}
