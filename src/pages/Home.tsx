@@ -15,6 +15,7 @@ export default function Home() {
             animate={{ rotate: 360 }}
             transition={{ duration: 150, repeat: Infinity, ease: "linear" }}
             className="absolute w-[150vw] h-[150vw] md:w-[120vw] md:h-[120vw] opacity-20 mix-blend-screen"
+            style={{ willChange: 'transform' }}
           >
             <img 
               src="/hero-image.jpg" 

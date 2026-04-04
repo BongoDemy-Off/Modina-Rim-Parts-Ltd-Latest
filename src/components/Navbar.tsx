@@ -9,7 +9,17 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [lang, setLang] = useState<'EN' | 'BN'>('EN');
+  const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 60);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     setIsOpen(false);
@@ -47,9 +57,9 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="fixed top-0 w-full z-50 flex flex-col transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
+      <header className={cn("fixed top-0 w-full z-50 flex flex-col transition-all duration-300", isScrolled ? "shadow-[0_4px_30px_rgba(0,0,0,0.5)]" : "shadow-[0_4px_20px_rgba(0,0,0,0.3)]")}>
         {/* Global Navigation Menu (Top Bar) */}
-        <div className="h-20 bg-[#050505]/95 backdrop-blur-xl border-b border-white/10 px-4 lg:px-8 flex items-center justify-between relative z-20">
+        <div className={cn("border-b border-white/10 px-4 lg:px-8 flex items-center justify-between relative z-20 transition-all duration-300", isScrolled ? "h-14 bg-[#050505]/99" : "h-20 bg-[#050505]/95 backdrop-blur-xl")}>
           {/* Left: Company Name */}
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
@@ -110,9 +120,12 @@ export default function Navbar() {
         </div>
 
         {/* Main Navigation Menu (Bottom Bar) */}
-        <div className="hidden xl:flex h-16 bg-[#0a0a0a]/90 backdrop-blur-md border-b border-white/5 px-8 items-center justify-center relative z-10">
+        <div className={cn("hidden xl:flex backdrop-blur-md border-b border-white/5 px-8 items-center justify-center relative z-10 transition-all duration-300", isScrolled ? "h-0 opacity-0 overflow-hidden bg-transparent" : "h-16 bg-[#0a0a0a]/90 opacity-100")}>
           <nav className="flex items-center justify-center gap-8 2xl:gap-12 h-full">
-            {navItems.map((item, idx) => (
+            {navItems.map((item, idx) => {
+              const isActive = location.pathname === item.path;
+              
+              return (
               <motion.div 
                 key={item.name}
                 initial={{ opacity: 0, y: -10 }}
@@ -124,10 +137,10 @@ export default function Navbar() {
               >
                 {item.dropdown ? (
                   <div className="flex items-center cursor-pointer h-full py-2">
-                    <span className="text-gray-300 text-[11px] 2xl:text-xs font-bold tracking-[0.2em] uppercase group-hover:text-white transition-colors duration-300">
+                    <span className={cn("text-[11px] 2xl:text-xs font-bold tracking-[0.2em] uppercase transition-colors duration-300", isActive ? "text-white" : "text-gray-300 group-hover:text-white")}>
                       {item.name}
                     </span>
-                    <ChevronDown className="w-3.5 h-3.5 text-gray-500 group-hover:text-white transition-colors duration-300 ml-1.5" />
+                    <ChevronDown className={cn("w-3.5 h-3.5 transition-colors duration-300 ml-1.5", isActive ? "text-white" : "text-gray-500 group-hover:text-white")} />
                   </div>
                 ) : item.isButton ? (
                   <Link 
@@ -139,9 +152,10 @@ export default function Navbar() {
                 ) : (
                   <Link 
                     to={item.path!} 
-                    className="text-gray-300 text-[11px] 2xl:text-xs font-bold tracking-[0.2em] uppercase hover:text-white transition-colors duration-300 flex items-center h-full relative after:absolute after:bottom-4 after:left-0 after:w-0 after:h-[2px] after:bg-modina-red hover:after:w-full after:transition-all after:duration-300"
+                    className={cn("text-[11px] 2xl:text-xs font-bold tracking-[0.2em] uppercase transition-colors duration-300 flex items-center h-full relative after:absolute after:bottom-4 after:left-0 after:h-[2px] after:bg-modina-red after:transition-all after:duration-300", isActive ? "text-white after:w-full" : "text-gray-300 hover:text-white after:w-0 hover:after:w-full")}
                   >
                     {item.name}
+                    {isActive && <span className="w-1.5 h-1.5 rounded-full bg-modina-red absolute -bottom-1 left-1/2 -translate-x-1/2" />}
                   </Link>
                 )}
 
@@ -159,23 +173,27 @@ export default function Navbar() {
                         <div className="bg-[#0a0a0a]/95 backdrop-blur-xl border border-white/[0.05] shadow-2xl rounded-2xl p-3 flex flex-col gap-1 relative overflow-hidden">
                           <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
                           
-                          {item.dropdown.map((subItem) => (
+                          {item.dropdown.map((subItem) => {
+                            const isSubActive = location.pathname === subItem.path;
+                            return (
                             <Link
                               key={subItem.name}
                               to={subItem.path}
-                              className="px-4 py-3.5 text-[10px] 2xl:text-[11px] font-bold tracking-[0.15em] text-gray-400 hover:text-white hover:bg-white/5 rounded-xl uppercase transition-all duration-200 flex items-center group/link"
+                              className={cn("px-4 py-3.5 text-[10px] 2xl:text-[11px] font-bold tracking-[0.15em] hover:text-white hover:bg-white/5 rounded-xl uppercase transition-all duration-200 flex items-center group/link", isSubActive ? "text-white bg-white/5" : "text-gray-400")}
                             >
-                              <span className="w-1.5 h-1.5 rounded-full bg-modina-red opacity-0 group-hover/link:opacity-100 transition-opacity mr-3"></span>
+                              <span className={cn("w-1.5 h-1.5 rounded-full bg-modina-red transition-opacity mr-3", isSubActive ? "opacity-100" : "opacity-0 group-hover/link:opacity-100")}></span>
                               {subItem.name}
                             </Link>
-                          ))}
+                            );
+                          })}
                         </div>
                       </motion.div>
                     )}
                   </AnimatePresence>
                 )}
               </motion.div>
-            ))}
+              );
+            })}
           </nav>
         </div>
       </header>
