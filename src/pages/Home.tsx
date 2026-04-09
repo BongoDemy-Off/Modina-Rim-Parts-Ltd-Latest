@@ -1,14 +1,30 @@
-import React from 'react';
-import { motion } from 'motion/react';
+import React, { useRef, useEffect } from 'react';
+import { motion, useInView, useMotionValue, useTransform, animate } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, ChevronDown, ArrowRight, ShieldCheck, Settings, Award, Download, Quote, Bell } from 'lucide-react';
 import HeroImage from '../components/HeroImage';
+
+function AnimatedCounter({ target, suffix = '' }: { target: number, suffix?: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-50px" });
+  const count = useMotionValue(0);
+  const rounded = useTransform(count, (latest) => Math.round(latest) + suffix);
+
+  useEffect(() => {
+    if (inView) {
+      const controls = animate(count, target, { duration: 2, ease: "easeOut" });
+      return controls.stop;
+    }
+  }, [inView, target, count]);
+
+  return <motion.span ref={ref}>{rounded}</motion.span>;
+}
 
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-modina-dark text-white font-sans">
       {/* 1. High-Impact Hero Section */}
-      <section className="relative min-h-screen w-full flex items-center bg-modina-dark overflow-hidden pt-[136px] lg:pt-[136px] pb-24">
+      <section className="relative min-h-screen w-full flex items-center bg-modina-dark overflow-hidden pt-[136px] lg:pt-[136px] pb-24 group">
         {/* Background Image */}
         <div className="absolute inset-0 z-0 flex items-center justify-center overflow-hidden bg-modina-dark">
           <motion.div
@@ -20,7 +36,7 @@ export default function Home() {
             <img 
               src="/hero-image.jpg" 
               alt="High-Tech Rim"
-              className="w-full h-full object-cover object-center blur-[3px]"
+              className="w-full h-full object-cover object-center blur-[3px] transition-all duration-1000 ease-out group-hover:scale-110 group-hover:brightness-125"
               loading="eager"
               fetchPriority="high"
               onError={(e) => {
@@ -183,6 +199,25 @@ export default function Home() {
                   <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-2 transition-transform" />
                 </Link>
               </motion.div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 mt-12 lg:mt-16 border-t border-white/10 pt-8">
+                {[
+                  { target: 20, suffix: '+', label: 'Years in Business' },
+                  { target: 50, suffix: '+', label: 'Global Reach' },
+                  { target: 15, suffix: '', label: 'Patented Tech' }
+                ].map((stat, idx) => (
+                  <motion.div 
+                    key={idx}
+                    variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } } }}
+                    className="flex flex-col gap-2"
+                  >
+                    <span className="text-3xl lg:text-4xl font-display font-bold text-white">
+                      <AnimatedCounter target={stat.target} suffix={stat.suffix} />
+                    </span>
+                    <span className="text-xs text-modina-slate uppercase tracking-[0.15em]">{stat.label}</span>
+                  </motion.div>
+                ))}
+              </div>
             </div>
             
             <motion.div 
@@ -250,32 +285,56 @@ export default function Home() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
             {[
-              { title: 'Motorcycle', desc: 'Stands, Guards, Handlebars', img: 'motorcycle' },
-              { title: 'Premium Rims', desc: 'Easy Bike, Mishuk, CNG', img: 'rims' },
-              { title: 'Bicycle & Rickshaw', desc: 'Avon, Gazi, Jumbo', img: 'bicycle' },
-              { title: 'Hardware', desc: 'Bearings, Spokes, Washers', img: 'hardware' }
+              { title: 'Motorcycle', desc: 'Stands, Guards, Handlebars', img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80' },
+              { title: 'Premium Rims', desc: 'Easy Bike, Mishuk, CNG', img: 'https://images.unsplash.com/photo-1547744152-14d985cb937f?w=600&q=80' },
+              { title: 'Bicycle & Rickshaw', desc: 'Avon, Gazi, Jumbo', img: 'https://images.unsplash.com/photo-1507035895480-2b3156c31fc8?w=600&q=80' },
+              { title: 'Hardware', desc: 'Bearings, Spokes, Washers', img: 'https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=600&q=80' }
             ].map((category, idx) => (
               <motion.div 
                 key={idx}
-                variants={{ hidden: { opacity: 0, y: 40 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } } }}
-                className="group relative h-[350px] sm:h-[400px] lg:h-[500px] bg-modina-dark border border-white/5 cursor-pointer overflow-hidden"
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: idx * 0.15 }}
+                className="group relative bg-[#050505] cursor-pointer overflow-hidden border border-white/5 hover:border-white/20 transition-colors duration-700"
+                style={{ aspectRatio: '3/4' }}
               >
+                {/* Image */}
                 <img 
-                  src={`https://picsum.photos/seed/${category.img}/600/800`} 
+                  src={category.img} 
                   alt={category.title} 
-                  className="w-full h-full object-cover opacity-30 mix-blend-luminosity group-hover:opacity-60 group-hover:scale-105 transition-all duration-700"
+                  className="w-full h-full object-cover opacity-50 grayscale group-hover:grayscale-0 group-hover:opacity-80 group-hover:scale-105 transition-all duration-1000 ease-[cubic-bezier(0.25,1,0.5,1)]"
                   referrerPolicy="no-referrer"
+                  loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-modina-dark via-modina-dark/50 to-transparent"></div>
-                <div className="absolute bottom-0 left-0 right-0 p-6 lg:p-8 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                  <h3 className="text-xl lg:text-2xl font-display font-bold text-white mb-2 uppercase tracking-wide">{category.title}</h3>
-                  <p className="text-modina-slate text-xs lg:text-sm mb-4 lg:mb-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100 uppercase tracking-wider">{category.desc}</p>
-                  <div className="w-10 h-10 lg:w-12 lg:h-12 bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-modina-red group-hover:border-modina-red transition-colors">
-                    <ArrowRight className="w-4 h-4 lg:w-5 lg:h-5 text-white" />
+                
+                {/* Gradient Overlays */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#000000] via-[#000000]/20 to-transparent opacity-90 group-hover:opacity-70 transition-opacity duration-1000"></div>
+                
+                {/* Content */}
+                <div className="absolute inset-0 p-8 lg:p-10 flex flex-col justify-end z-10">
+                  <div className="transform translate-y-6 group-hover:translate-y-0 transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]">
+                    <h3 className="text-xl lg:text-2xl font-display font-light text-white mb-4 uppercase tracking-[0.2em]">{category.title}</h3>
+                    
+                    {/* Animated Line */}
+                    <div className="w-8 h-[1px] bg-modina-red mb-6 group-hover:w-16 transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]"></div>
+                    
+                    <p className="text-gray-400 text-xs lg:text-sm mb-8 opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] uppercase tracking-widest leading-relaxed">{category.desc}</p>
+                    
+                    <div className="flex items-center gap-4 opacity-0 group-hover:opacity-100 transition-all duration-700 delay-100 translate-y-4 group-hover:translate-y-0">
+                      <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-white">Explore Series</span>
+                      <ArrowRight className="w-4 h-4 text-white" />
+                    </div>
                   </div>
                 </div>
               </motion.div>
             ))}
+          </div>
+
+          <div className="flex justify-center mt-12 lg:hidden">
+            <Link to="/products" className="inline-flex items-center gap-3 border border-white/20 text-white px-8 py-3 rounded-full text-xs font-bold tracking-[0.2em] uppercase hover:border-modina-red hover:text-modina-red transition-all duration-300">
+              View All Products <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </motion.div>
       </section>

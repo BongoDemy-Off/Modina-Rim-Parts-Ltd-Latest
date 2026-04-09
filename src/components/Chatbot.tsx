@@ -74,7 +74,7 @@ export default function Chatbot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="fixed bottom-24 right-6 w-[350px] sm:w-[400px] h-[500px] bg-modina-gray border border-white/10 rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden"
+            className="fixed bottom-24 right-6 w-[350px] sm:w-[400px] h-[500px] bg-[#16181F] border border-white/10 rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden"
           >
             {/* Header */}
             <div className="bg-modina-dark border-b border-white/10 p-4 flex items-center justify-between">
@@ -90,12 +90,17 @@ export default function Chatbot() {
                   </p>
                 </div>
               </div>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="text-gray-400 hover:text-white transition-colors p-1"
-              >
-                <X className="w-5 h-5" />
-              </button>
+              <div className="flex items-center gap-2">
+                <button onClick={() => setMessages([{ role: 'bot', text: 'Hello! I am the Modina AI Assistant. How can I help you today?' }])} className="text-gray-500 hover:text-gray-300 transition-colors p-1 text-xs" title="Clear chat">
+                  Clear
+                </button>
+                <button
+                  onClick={() => setIsOpen(false)}
+                  className="text-gray-400 hover:text-white transition-colors p-1"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
             </div>
 
             {/* Messages */}
@@ -147,13 +152,19 @@ export default function Chatbot() {
                 }}
                 className="flex items-center gap-2"
               >
-                <input
-                  type="text"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  placeholder="Type your message..."
-                  className="flex-1 bg-white/5 border border-white/10 rounded-full px-4 py-2.5 text-sm text-white focus:outline-none focus:border-modina-red transition-colors"
-                />
+                <div className="flex-1 relative">
+                  <input
+                    type="text"
+                    value={input}
+                    onChange={(e) => setInput(e.target.value.slice(0, 500))}
+                    placeholder="Type your message..."
+                    maxLength={500}
+                    className="w-full bg-white/5 border border-white/10 rounded-full px-4 py-2.5 text-sm text-white focus:outline-none focus:border-modina-red transition-colors"
+                  />
+                  {input.length > 400 && (
+                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-gray-500">{500 - input.length}</span>
+                  )}
+                </div>
                 <button
                   type="submit"
                   disabled={!input.trim() || isLoading}

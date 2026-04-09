@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Bot, Send, Settings, Cpu, ShieldCheck } from 'lucide-react';
 import { GoogleGenAI } from '@google/genai';
+import ReactMarkdown from 'react-markdown';
 
 export default function AIEngineer() {
   const [query, setQuery] = useState('');
@@ -91,7 +92,7 @@ export default function AIEngineer() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="lg:col-span-7"
           >
-            <div className="bg-modina-gray border border-white/10 rounded-3xl p-6 md:p-8 shadow-2xl h-[600px] flex flex-col">
+            <div className="bg-[#16181F] border border-white/10 rounded-3xl p-6 md:p-8 shadow-2xl min-h-[500px] flex flex-col">
               
               {/* Output Area */}
               <div className="flex-1 bg-[#0a0a0a] rounded-2xl border border-white/5 p-6 overflow-y-auto mb-6 relative">
@@ -117,8 +118,8 @@ export default function AIEngineer() {
                       <div className="w-10 h-10 rounded-full bg-modina-red flex items-center justify-center shrink-0 mt-1">
                         <Bot className="w-5 h-5 text-white" />
                       </div>
-                      <div className="bg-white/5 border border-white/10 rounded-2xl p-6 text-gray-300 leading-relaxed whitespace-pre-wrap">
-                        {response}
+                      <div className="bg-white/5 border border-white/10 rounded-2xl p-6 text-gray-300 leading-relaxed">
+                        <ReactMarkdown className="prose prose-invert prose-sm max-w-none prose-headings:text-white prose-p:text-gray-300 prose-strong:text-white prose-li:text-gray-300">{response}</ReactMarkdown>
                       </div>
                     </div>
                   </div>
@@ -147,6 +148,15 @@ export default function AIEngineer() {
                   <Send className="w-5 h-5 ml-1" />
                 </button>
               </form>
+
+              <div className="flex flex-wrap gap-2 mt-3">
+                {['Tensile strength of motorcycle rim alloy?', 'ISO certification details?', 'CNC machining tolerances?'].map((prompt) => (
+                  <button key={prompt} onClick={() => setQuery(prompt)} className="text-xs text-gray-400 border border-white/10 rounded-full px-3 py-1.5 hover:border-modina-red hover:text-modina-red transition-all duration-200">
+                    {prompt}
+                  </button>
+                ))}
+              </div>
+
               <p className="text-xs text-gray-500 text-center mt-4">
                 AI responses are generated based on Modina's technical knowledge base. For official documentation, please visit the Download Center.
               </p>
