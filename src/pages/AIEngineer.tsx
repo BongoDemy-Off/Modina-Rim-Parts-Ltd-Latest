@@ -37,13 +37,13 @@ export default function AIEngineer() {
   };
 
   return (
-    <div className="min-h-screen pt-32 pb-24 bg-modina-dark relative overflow-hidden">
+    <div className="min-h-screen pt-36 pb-28 bg-modina-dark relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-modina-red/5 rounded-full blur-[120px] pointer-events-none"></div>
       <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-[100px] pointer-events-none"></div>
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-14 lg:gap-16">
           
           {/* Left Column: Info */}
           <motion.div 
@@ -52,33 +52,33 @@ export default function AIEngineer() {
             transition={{ duration: 0.6 }}
             className="lg:col-span-5 flex flex-col justify-center"
           >
-            <div className="inline-flex items-center gap-2 bg-modina-red/10 text-modina-red px-4 py-2 rounded-full text-sm font-medium mb-6 w-fit border border-modina-red/20">
+            <div className="inline-flex items-center gap-2 bg-modina-red/10 text-modina-red px-4 py-2 rounded-full text-sm font-medium mb-7 w-fit border border-modina-red/20">
               <Cpu className="w-4 h-4" />
               Powered by Gemini AI
             </div>
             
-            <h1 className="text-4xl md:text-6xl font-display font-bold text-white mb-6 leading-tight">
+            <h1 className="text-4xl md:text-6xl font-display font-bold text-white mb-7 leading-tight">
               Consult Our <br />
               <span className="text-modina-red">AI Engineer</span>
             </h1>
             
-            <p className="text-gray-400 text-lg mb-10 leading-relaxed">
+            <p className="text-gray-400 text-lg mb-12 leading-relaxed">
               Get instant, expert-level technical insights on manufacturing processes, material specifications, tolerances, and quality standards for all Modina products.
             </p>
 
-            <div className="space-y-6">
+            <div className="space-y-7">
               {[
                 { icon: Settings, title: 'Technical Specifications', desc: 'Detailed specs on alloys, dimensions, and load capacities.' },
                 { icon: ShieldCheck, title: 'Quality Standards', desc: 'Information on ISO compliance and testing methodologies.' },
                 { icon: Bot, title: 'Manufacturing Processes', desc: 'Insights into our forging, CNC machining, and finishing.' }
               ].map((feature, idx) => (
-                <div key={idx} className="flex items-start gap-4">
+                <div key={idx} className="flex items-start gap-5">
                   <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
                     <feature.icon className="w-6 h-6 text-modina-red" />
                   </div>
                   <div>
                     <h3 className="text-white font-display font-semibold mb-1">{feature.title}</h3>
-                    <p className="text-gray-400 text-sm">{feature.desc}</p>
+                    <p className="text-gray-400 text-sm leading-relaxed">{feature.desc}</p>
                   </div>
                 </div>
               ))}
@@ -92,14 +92,14 @@ export default function AIEngineer() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="lg:col-span-7"
           >
-            <div className="bg-[#16181F] border border-white/10 rounded-3xl p-6 md:p-8 shadow-2xl min-h-[500px] flex flex-col">
+            <div className="bg-[#16181F] border border-white/10 rounded-3xl p-6 md:p-10 shadow-2xl min-h-[600px] flex flex-col">
               
               {/* Output Area */}
-              <div className="flex-1 bg-[#0a0a0a] rounded-2xl border border-white/5 p-6 overflow-y-auto mb-6 relative">
+              <div className="flex-1 bg-[#0a0a0a] rounded-2xl border border-white/5 p-6 overflow-y-auto mb-6 relative min-h-[320px]">
                 {!response && !isLoading && (
                   <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 opacity-50">
-                    <Bot className="w-16 h-16 text-gray-500 mb-4" />
-                    <p className="text-gray-400 font-display">
+                    <Bot className="w-16 h-16 text-gray-500 mb-5" />
+                    <p className="text-gray-400 font-display text-sm leading-relaxed max-w-xs">
                       Ask me anything about Modina's manufacturing capabilities, product specs, or engineering standards.
                     </p>
                   </div>
@@ -132,7 +132,7 @@ export default function AIEngineer() {
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder="E.g., What is the tensile strength of the alloy used in your premium motorcycle rims?"
-                  className="w-full bg-[#0a0a0a] border border-white/10 rounded-2xl py-4 pl-6 pr-16 text-white placeholder-gray-500 focus:outline-none focus:border-modina-red transition-colors resize-none h-24"
+                  className="w-full bg-[#0a0a0a] border border-white/10 rounded-2xl py-4 pl-6 pr-16 text-white placeholder-gray-500 focus:outline-none focus:border-modina-red transition-colors resize-none h-28"
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' && !e.shiftKey) {
                       e.preventDefault();
@@ -149,7 +149,7 @@ export default function AIEngineer() {
                 </button>
               </form>
 
-              <div className="flex flex-wrap gap-2 mt-3">
+              <div className="flex flex-wrap gap-2 mt-4">
                 {['Tensile strength of motorcycle rim alloy?', 'ISO certification details?', 'CNC machining tolerances?'].map((prompt) => (
                   <button key={prompt} onClick={() => setQuery(prompt)} className="text-xs text-gray-400 border border-white/10 rounded-full px-3 py-1.5 hover:border-modina-red hover:text-modina-red transition-all duration-200">
                     {prompt}
@@ -157,7 +157,7 @@ export default function AIEngineer() {
                 ))}
               </div>
 
-              <p className="text-xs text-gray-500 text-center mt-4">
+              <p className="text-xs text-gray-500 text-center mt-5">
                 AI responses are generated based on Modina's technical knowledge base. For official documentation, please visit the Download Center.
               </p>
             </div>
