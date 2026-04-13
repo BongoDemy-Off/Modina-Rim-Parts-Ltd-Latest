@@ -59,7 +59,7 @@ export default function Navbar() {
     <>
       <header className={cn("fixed top-0 w-full z-50 flex flex-col transition-all duration-300", isScrolled ? "shadow-[0_4px_30px_rgba(0,0,0,0.5)]" : "shadow-[0_4px_20px_rgba(0,0,0,0.3)]")}>
         {/* Global Navigation Menu (Top Bar) */}
-        <div className={cn("border-b border-white/10 px-4 lg:px-8 flex items-center justify-between relative z-20 transition-all duration-300", isScrolled ? "h-16 bg-[#050505]/99" : "h-20 bg-[#050505]/95 backdrop-blur-xl")}>
+        <div className={cn("border-b border-white/10 px-4 lg:px-8 flex items-center justify-between relative z-20 transition-all duration-300", isScrolled ? "h-14 bg-[#050505]/99" : "h-20 bg-[#050505]/95 backdrop-blur-xl")}>
           {/* Left: Company Name */}
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
@@ -81,8 +81,8 @@ export default function Navbar() {
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
             className="flex justify-center items-center"
           >
-            <Link to="/" className="flex items-center justify-center w-16 h-16 rounded-full bg-white shadow-[0_0_20px_rgba(229,37,37,0.15)] hover:shadow-[0_0_30px_rgba(229,37,37,0.3)] hover:scale-105 transition-all duration-300 group">
-              <Logo className="w-10 h-10 object-contain" />
+            <Link to="/" className="flex items-center justify-center w-14 h-14 rounded-full bg-white shadow-[0_0_20px_rgba(229,37,37,0.15)] hover:shadow-[0_0_30px_rgba(229,37,37,0.3)] hover:scale-105 transition-all duration-300 group">
+              <Logo className="w-8 h-8 object-contain" />
             </Link>
           </motion.div>
 

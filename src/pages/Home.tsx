@@ -39,7 +39,7 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-modina-dark text-white font-sans">
       {/* 1. High-Impact Hero Section */}
-      <section className="relative min-h-screen w-full flex items-center bg-modina-dark overflow-hidden pt-[136px] pb-24 group">
+      <section className="relative min-h-[700px] lg:min-h-[850px] w-full flex items-center bg-modina-dark overflow-hidden pt-[136px] pb-24 group">
         {/* Background Image */}
         <div className="absolute inset-0 z-0 flex items-center justify-center overflow-hidden bg-modina-dark">
           <motion.div
@@ -161,7 +161,7 @@ export default function Home() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.2, duration: 1 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-3"
+          className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-3"
         >
           <span className="text-[9px] font-bold tracking-[0.3em] uppercase text-gray-500">Scroll</span>
           <div className="w-[1px] h-12 bg-gradient-to-b from-gray-500 to-transparent"></div>
@@ -180,7 +180,7 @@ export default function Home() {
       </section>
 
       {/* 2. Corporate Identity (About Us Teaser) */}
-      <section className="py-24 lg:py-36 bg-modina-dark relative border-t border-white/5">
+      <section className="py-20 lg:py-32 bg-modina-dark relative border-t border-white/5">
         <div className="container mx-auto px-6 md:px-12 lg:px-24">
           <motion.div 
             initial="hidden"
@@ -189,7 +189,7 @@ export default function Home() {
             variants={{
               visible: { transition: { staggerChildren: 0.2 } }
             }}
-            className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center"
+            className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center"
           >
             <div className="flex flex-col">
               <motion.h2 
@@ -212,7 +212,7 @@ export default function Home() {
                 </Link>
               </motion.div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 mt-14 lg:mt-16 border-t border-white/10 pt-10">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 mt-12 lg:mt-16 border-t border-white/10 pt-8">
                 {[
                   { target: 20, suffix: '+', label: 'Years in Business' },
                   { target: 50, suffix: '+', label: 'Global Reach' },
@@ -234,7 +234,7 @@ export default function Home() {
             
             <motion.div 
               variants={{ hidden: { opacity: 0, scale: 0.95, y: 30 }, visible: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } } }}
-              className="relative h-[450px] lg:h-[640px] bg-modina-panel border border-white/5"
+              className="relative h-[400px] lg:h-[600px] bg-modina-panel border border-white/5"
             >
               <img 
                 src="https://picsum.photos/seed/factory/800/1000" 
@@ -243,7 +243,7 @@ export default function Home() {
                 referrerPolicy="no-referrer"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-modina-dark to-transparent"></div>
-              <div className="absolute bottom-8 left-8 lg:bottom-10 lg:left-10">
+              <div className="absolute bottom-6 left-6 lg:bottom-10 lg:left-10">
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 lg:w-12 lg:h-12 bg-modina-red flex items-center justify-center shrink-0">
                     <Settings className="w-5 h-5 lg:w-6 lg:h-6 text-white" />
@@ -260,7 +260,7 @@ export default function Home() {
       </section>
 
       {/* 3. Categorized Product Showcase */}
-      <section className="py-16 lg:py-24 bg-modina-panel border-y border-white/5">
+      <section className="py-8 lg:py-10 bg-modina-panel border-y border-white/5">
         <motion.div 
           initial="hidden"
           whileInView="visible"
@@ -270,7 +270,7 @@ export default function Home() {
           }}
           className="container mx-auto px-6 md:px-12 lg:px-24"
         >
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 lg:mb-14">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-6 lg:mb-8">
             <div className="max-w-2xl">
               <motion.h2 
                 variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } } }}
@@ -295,12 +295,12 @@ export default function Home() {
             </motion.div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:h-[560px]">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:h-[250px]">
             {[
-              { title: 'Motorcycle', subtitle: 'Category 01', desc: 'Stands, Guards, Handlebars', img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=80', className: 'md:col-span-2 md:row-span-2 min-h-[300px] md:min-h-0 h-full', titleClass: 'text-2xl lg:text-3xl', paddingClass: 'p-6 lg:p-8' },
-              { title: 'Premium Rims', subtitle: 'Category 02', desc: 'Easy Bike, Mishuk, CNG', img: 'https://images.unsplash.com/photo-1547744152-14d985cb937f?w=800&q=80', className: 'md:col-span-1 md:row-span-1 min-h-[200px] md:min-h-0 h-full', titleClass: 'text-base lg:text-lg', paddingClass: 'p-5' },
-              { title: 'Bicycle & Rickshaw', subtitle: 'Category 03', desc: 'Avon, Gazi, Jumbo', img: 'https://images.unsplash.com/photo-1507035895480-2b3156c31fc8?w=800&q=80', className: 'md:col-span-1 md:row-span-1 min-h-[200px] md:min-h-0 h-full', titleClass: 'text-base lg:text-lg', paddingClass: 'p-5' },
-              { title: 'Hardware', subtitle: 'Category 04', desc: 'Bearings, Spokes, Washers', img: 'https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=1200&q=80', className: 'md:col-span-2 md:row-span-1 min-h-[200px] md:min-h-0 h-full', titleClass: 'text-lg lg:text-xl', paddingClass: 'p-5 lg:p-6' }
+              { title: 'Motorcycle', subtitle: 'Category 01', desc: 'Stands, Guards, Handlebars', img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=80', className: 'md:col-span-2 md:row-span-2 min-h-[200px] md:min-h-0 h-full', titleClass: 'text-2xl lg:text-3xl', paddingClass: 'p-6' },
+              { title: 'Premium Rims', subtitle: 'Category 02', desc: 'Easy Bike, Mishuk, CNG', img: 'https://images.unsplash.com/photo-1547744152-14d985cb937f?w=800&q=80', className: 'md:col-span-1 md:row-span-1 min-h-[120px] md:min-h-0 h-full', titleClass: 'text-base lg:text-lg', paddingClass: 'p-4' },
+              { title: 'Bicycle & Rickshaw', subtitle: 'Category 03', desc: 'Avon, Gazi, Jumbo', img: 'https://images.unsplash.com/photo-1507035895480-2b3156c31fc8?w=800&q=80', className: 'md:col-span-1 md:row-span-1 min-h-[120px] md:min-h-0 h-full', titleClass: 'text-base lg:text-lg', paddingClass: 'p-4' },
+              { title: 'Hardware', subtitle: 'Category 04', desc: 'Bearings, Spokes, Washers', img: 'https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=1200&q=80', className: 'md:col-span-2 md:row-span-1 min-h-[120px] md:min-h-0 h-full', titleClass: 'text-lg lg:text-xl', paddingClass: 'p-4 lg:p-5' }
             ].map((category, idx) => (
               <motion.div 
                 key={idx}
@@ -365,7 +365,7 @@ export default function Home() {
       </section>
 
       {/* 4. Quality Assurance & Certifications */}
-      <section className="py-20 lg:py-28 bg-modina-dark relative overflow-hidden">
+      <section className="py-[40px] bg-modina-dark relative overflow-hidden">
         <motion.div 
           initial="hidden"
           whileInView="visible"
@@ -375,10 +375,10 @@ export default function Home() {
           }}
           className="container mx-auto px-6 md:px-12 lg:px-24 relative z-10"
         >
-          <div className="text-center max-w-3xl mx-auto mb-12 lg:mb-16">
+          <div className="text-center max-w-3xl mx-auto mb-8 lg:mb-10">
             <motion.h2 
               variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } } }}
-              className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-white mb-4 uppercase tracking-wide"
+              className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-white mb-2 lg:mb-3 uppercase tracking-wide"
             >
               The <span className="text-modina-slate">Trust</span> Factor
             </motion.h2>
@@ -390,7 +390,7 @@ export default function Home() {
             </motion.p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-6 md:h-[220px]">
             {[
               { icon: ShieldCheck, title: 'Durability Testing', desc: 'Stress-tested under extreme conditions to guarantee long-lasting performance.' },
               { icon: Settings, title: 'Precision Engineering', desc: 'CNC-machined components with micro-millimeter accuracy for perfect fitment.' },
@@ -399,7 +399,7 @@ export default function Home() {
               <motion.div 
                 key={idx}
                 variants={{ hidden: { opacity: 0, y: 40 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } } }}
-                className="relative group bg-[#0a0a0a] border border-white/5 p-7 lg:p-8 overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(229,37,37,0.15)] min-h-[260px] flex flex-col"
+                className="relative group bg-[#0a0a0a] border border-white/5 p-5 lg:p-6 overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(229,37,37,0.15)] h-full"
               >
                 {/* Hover Gradient Background */}
                 <div className="absolute inset-0 bg-gradient-to-br from-modina-red/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
@@ -408,9 +408,9 @@ export default function Home() {
                 <div className="absolute top-0 left-0 w-0 h-[2px] bg-modina-red group-hover:w-full transition-all duration-700 ease-[cubic-bezier(0.19,1,0.22,1)]"></div>
 
                 <div className="relative z-10 flex flex-col h-full">
-                  <div className="flex items-start justify-between mb-6">
-                    <div className="w-12 h-12 bg-white/[0.02] rounded-xl flex items-center justify-center border border-white/5 group-hover:scale-110 group-hover:bg-modina-red/10 group-hover:border-modina-red/20 transition-all duration-500 ease-out">
-                      <feature.icon className="w-5 h-5 text-gray-400 group-hover:text-modina-red transition-colors duration-500" />
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="w-10 h-10 bg-white/[0.02] rounded-xl flex items-center justify-center border border-white/5 group-hover:scale-110 group-hover:bg-modina-red/10 group-hover:border-modina-red/20 transition-all duration-500 ease-out">
+                      <feature.icon className="w-4 h-4 text-gray-400 group-hover:text-modina-red transition-colors duration-500" />
                     </div>
                     <span className="text-4xl font-display font-light text-white/[0.03] group-hover:text-white/10 transition-colors duration-500 select-none">
                       0{idx + 1}
@@ -418,10 +418,10 @@ export default function Home() {
                   </div>
                   
                   <h3 className="text-sm lg:text-base font-display font-bold text-white mb-2 uppercase tracking-[0.15em] group-hover:text-modina-red transition-colors duration-500">{feature.title}</h3>
-                  <p className="text-gray-400 text-sm leading-relaxed font-light flex-grow line-clamp-2">{feature.desc}</p>
+                  <p className="text-gray-400 text-xs leading-relaxed font-light flex-grow line-clamp-2">{feature.desc}</p>
                   
                   {/* Subtle Learn More Link */}
-                  <div className="mt-5 flex items-center gap-2 opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500 ease-out">
+                  <div className="mt-3 flex items-center gap-2 opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500 ease-out">
                     <div className="w-4 h-4 rounded-full border border-modina-red/30 flex items-center justify-center">
                       <ArrowRight className="w-2 h-2 text-modina-red" />
                     </div>
@@ -435,7 +435,7 @@ export default function Home() {
       </section>
 
       {/* 5. The Corporate Download Center */}
-      <section className="py-20 lg:py-28 bg-modina-panel border-y border-white/5 flex">
+      <section className="h-[550px] bg-modina-panel border-y border-white/5 flex flex-col justify-center">
         <motion.div 
           initial="hidden"
           whileInView="visible"
@@ -445,17 +445,17 @@ export default function Home() {
           }}
           className="container mx-auto px-6 md:px-12 lg:px-24"
         >
-          <div className="bg-gradient-to-br from-[#111318] to-[#0a0a0a] border border-white/10 rounded-2xl px-8 py-12 lg:px-14 lg:py-16 relative overflow-hidden flex shadow-[0_0_50px_rgba(0,0,0,0.3)] group">
+          <div className="bg-gradient-to-br from-[#111318] to-[#0a0a0a] border border-white/10 rounded-2xl p-8 lg:p-12 relative overflow-hidden h-[350px] flex flex-col justify-center shadow-[0_0_50px_rgba(0,0,0,0.3)] group">
             {/* Premium Background Glows */}
             <div className="absolute top-[-50%] right-[-10%] w-[500px] h-[500px] bg-modina-red/10 rounded-full blur-[100px] pointer-events-none group-hover:bg-modina-red/20 transition-colors duration-1000"></div>
             <div className="absolute bottom-[-20%] left-[-10%] w-[300px] h-[300px] bg-white/5 rounded-full blur-[80px] pointer-events-none"></div>
             
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center relative z-10 w-full">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center relative z-10">
               {/* Left Column: Text & Primary CTA */}
               <div className="flex flex-col">
                 <motion.div 
                   variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } } }}
-                  className="flex items-center gap-3 mb-5"
+                  className="flex items-center gap-3 mb-4"
                 >
                   <div className="w-8 h-[1px] bg-modina-red"></div>
                   <span className="text-[10px] font-bold tracking-[0.2em] text-modina-red uppercase">Corporate Resources</span>
@@ -463,7 +463,7 @@ export default function Home() {
                 
                 <motion.h2 
                   variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } } }}
-                  className="text-3xl sm:text-4xl font-display font-bold text-white mb-5 uppercase tracking-wide leading-tight"
+                  className="text-3xl sm:text-4xl font-display font-bold text-white mb-4 uppercase tracking-wide leading-tight"
                 >
                   Equipping Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500">Partners.</span>
                 </motion.h2>
@@ -503,16 +503,16 @@ export default function Home() {
                   <motion.div 
                     key={idx} 
                     variants={{ hidden: { opacity: 0, x: 20 }, visible: { opacity: 1, x: 0, transition: { duration: 0.5, delay: idx * 0.1, ease: "easeOut" } } }}
-                    className="bg-[#050505]/50 backdrop-blur-md border border-white/5 p-5 rounded-xl flex items-center gap-4 hover:border-modina-red/30 hover:bg-white/[0.02] transition-all duration-300 cursor-pointer group/card hover:-translate-y-1 hover:shadow-[0_10px_20px_-10px_rgba(229,37,37,0.15)]"
+                    className="bg-[#050505]/50 backdrop-blur-md border border-white/5 p-4 rounded-xl flex items-center gap-4 hover:border-modina-red/30 hover:bg-white/[0.02] transition-all duration-300 cursor-pointer group/card hover:-translate-y-1 hover:shadow-[0_10px_20px_-10px_rgba(229,37,37,0.15)]"
                   >
-                    <div className="w-11 h-11 bg-white/[0.03] rounded-lg border border-white/5 flex items-center justify-center group-hover/card:bg-modina-red/10 group-hover/card:border-modina-red/20 transition-colors shrink-0">
+                    <div className="w-10 h-10 bg-white/[0.03] rounded-lg border border-white/5 flex items-center justify-center group-hover/card:bg-modina-red/10 group-hover/card:border-modina-red/20 transition-colors">
                       <Download className="w-4 h-4 text-gray-500 group-hover/card:text-modina-red transition-colors" />
                     </div>
                     <div className="flex flex-col flex-grow">
                       <span className="text-[11px] font-bold tracking-[0.1em] text-white uppercase mb-0.5 group-hover/card:text-modina-red transition-colors">{file.name}</span>
                       <span className="text-[9px] text-gray-500 tracking-wider font-mono">{file.type} • {file.size}</span>
                     </div>
-                    <div className="opacity-0 -translate-x-2 group-hover/card:opacity-100 group-hover/card:translate-x-0 transition-all duration-300 shrink-0">
+                    <div className="opacity-0 -translate-x-2 group-hover/card:opacity-100 group-hover/card:translate-x-0 transition-all duration-300">
                       <ArrowRight className="w-3 h-3 text-modina-red" />
                     </div>
                   </motion.div>
@@ -524,7 +524,7 @@ export default function Home() {
       </section>
 
       {/* 6. Global Trust (Testimonials) */}
-      <section className="py-20 lg:py-28 bg-modina-dark">
+      <section className="pt-[20px] pb-[45px] bg-modina-dark">
         <motion.div 
           initial="hidden"
           whileInView="visible"
@@ -534,7 +534,7 @@ export default function Home() {
           }}
           className="container mx-auto px-6 md:px-12 lg:px-24"
         >
-          <div className="text-center mb-14 lg:mb-20">
+          <div className="text-center mb-16 lg:mb-20">
             <motion.h2 
               variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } } }}
               className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-white mb-4 lg:mb-6 uppercase tracking-wide"
@@ -549,10 +549,10 @@ export default function Home() {
             </motion.p>
           </div>
 
-          <div className="w-full max-w-[780px] mx-auto relative">
+          <div className="w-full max-w-[750px] mx-auto relative">
             <motion.div 
               variants={{ hidden: { opacity: 0, y: 40 }, visible: { opacity: 1, y: 0, transition: { duration: 1, ease: [0.16, 1, 0.3, 1] } } }}
-              className="bg-[#111318] rounded-2xl px-6 py-10 md:px-12 md:py-12 min-h-[300px] relative flex flex-col items-center justify-center text-center border border-white/5 shadow-2xl overflow-hidden group"
+              className="bg-[#111318] rounded-2xl p-[10px] md:h-[220px] relative flex flex-col items-center justify-center text-center border border-white/5 shadow-2xl overflow-hidden group"
             >
               {/* Subtle top accent */}
               <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-modina-red/50 to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-1000" />
@@ -560,14 +560,14 @@ export default function Home() {
               {/* Navigation Arrows */}
               <button 
                 onClick={prevTestimonial}
-                className="absolute left-3 md:left-4 top-1/2 -translate-y-1/2 w-9 h-9 flex items-center justify-center text-white/50 hover:text-white transition-colors z-10 group/btn"
+                className="absolute left-1 md:left-2 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-white/50 hover:text-white transition-colors z-10 group/btn"
               >
                 <div className="absolute inset-0 border border-white/10 rounded-full scale-50 opacity-0 group-hover/btn:scale-100 group-hover/btn:opacity-100 transition-all duration-500 ease-out" />
                 <ChevronLeft className="w-4 h-4 font-light" strokeWidth={1.5} />
               </button>
               <button 
                 onClick={nextTestimonial}
-                className="absolute right-3 md:right-4 top-1/2 -translate-y-1/2 w-9 h-9 flex items-center justify-center text-white/50 hover:text-white transition-colors z-10 group/btn"
+                className="absolute right-1 md:right-2 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-white/50 hover:text-white transition-colors z-10 group/btn"
               >
                 <div className="absolute inset-0 border border-white/10 rounded-full scale-50 opacity-0 group-hover/btn:scale-100 group-hover/btn:opacity-100 transition-all duration-500 ease-out" />
                 <ChevronRight className="w-4 h-4 font-light" strokeWidth={1.5} />
@@ -583,8 +583,8 @@ export default function Home() {
                   className="flex flex-col items-center w-full"
                 >
                   {/* Avatar */}
-                  <div className="relative mb-5">
-                    <div className="w-14 h-14 rounded-full overflow-hidden border border-white/10 p-0.5">
+                  <div className="relative mb-3">
+                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-full overflow-hidden border border-white/10 p-0.5">
                       <div className="w-full h-full rounded-full overflow-hidden">
                         <img 
                           src={testimonials[activeTestimonial].image} 
@@ -595,26 +595,26 @@ export default function Home() {
                       </div>
                     </div>
                     {/* Minimalist Quote Mark */}
-                    <div className="absolute -top-1 -left-1 w-5 h-5 rounded-full bg-modina-red flex items-center justify-center border-2 border-[#111318]">
-                      <Quote className="w-2.5 h-2.5 text-white fill-white" />
+                    <div className="absolute -top-1 -left-1 w-4 h-4 rounded-full bg-modina-red flex items-center justify-center border-2 border-[#111318]">
+                      <Quote className="w-2 h-2 text-white fill-white" />
                     </div>
                   </div>
 
                   {/* Quote */}
-                  <p className="text-white/90 text-sm md:text-base leading-relaxed font-light tracking-wide max-w-xl px-6 md:px-10 mb-6">
+                  <p className="text-white/90 text-xs md:text-sm leading-relaxed font-light tracking-wide max-w-xl px-8 md:px-12 mb-4 line-clamp-3">
                     "{testimonials[activeTestimonial].quote}"
                   </p>
 
                   {/* Author Info */}
-                  <div className="flex flex-col items-center mb-4">
-                    <h4 className="text-[11px] md:text-xs font-display font-medium tracking-[0.2em] text-white uppercase mb-1.5">{testimonials[activeTestimonial].author}</h4>
+                  <div className="flex flex-col items-center mb-2">
+                    <h4 className="text-[10px] md:text-[11px] font-display font-medium tracking-[0.2em] text-white uppercase mb-1">{testimonials[activeTestimonial].author}</h4>
                     <p className="text-modina-red text-[8px] font-semibold tracking-[0.25em] uppercase">{testimonials[activeTestimonial].company}</p>
                   </div>
                 </motion.div>
               </AnimatePresence>
 
               {/* Pagination (Lines instead of dots) */}
-              <div className="absolute bottom-5 flex items-center gap-2">
+              <div className="absolute bottom-3 flex items-center gap-2">
                 {testimonials.map((_, idx) => (
                   <button
                     key={idx}
@@ -629,7 +629,7 @@ export default function Home() {
       </section>
 
       {/* 7. Pre-Footer Call to Action */}
-      <section className="min-h-[580px] py-24 lg:py-36 bg-modina-panel relative overflow-hidden border-t border-white/5">
+      <section className="h-[500px] flex flex-col justify-center bg-modina-panel relative overflow-hidden border-t border-white/5">
         <motion.div 
           initial="hidden"
           whileInView="visible"
@@ -642,21 +642,21 @@ export default function Home() {
           <div className="max-w-4xl mx-auto flex flex-col items-center">
             <motion.h2 
               variants={{ hidden: { opacity: 0, scale: 0.9, y: 30 }, visible: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } } }}
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-bold text-white mb-5 lg:mb-7 uppercase tracking-wide leading-tight"
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-bold text-white mb-4 lg:mb-6 uppercase tracking-wide leading-tight"
             >
               Partner with <br />
               <span className="text-modina-slate">Modina Rim & Parts</span>
             </motion.h2>
             <motion.p 
               variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } } }}
-              className="text-base sm:text-lg lg:text-xl text-gray-400 mb-10 lg:mb-12 max-w-2xl mx-auto"
+              className="text-base sm:text-lg lg:text-xl text-gray-400 mb-8 lg:mb-10 max-w-2xl mx-auto"
             >
               Let's build the future of mobility together. Connect with our experts to discuss your manufacturing needs.
             </motion.p>
             <motion.div variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } } }}>
               <Link 
                 to="/contact" 
-                className="inline-flex items-center gap-3 sm:gap-4 bg-modina-red text-white px-10 py-4 sm:px-12 sm:py-5 font-bold tracking-[0.2em] text-xs sm:text-sm uppercase hover:bg-red-700 transition-colors shadow-[0_0_30px_rgba(229,37,37,0.3)]"
+                className="inline-flex items-center gap-3 sm:gap-4 bg-modina-red text-white px-8 sm:px-10 py-4 font-bold tracking-[0.2em] text-xs sm:text-sm uppercase hover:bg-red-700 transition-colors shadow-[0_0_30px_rgba(229,37,37,0.3)]"
               >
                 Contact Sales Team
                 <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />

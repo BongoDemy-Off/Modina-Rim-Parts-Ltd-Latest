@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 
 export default function PlaceholderPage({ title, description }: { title: string, description: string }) {
   return (
-    <div className="min-h-screen pt-36 pb-24 flex items-center justify-center text-center">
+    <div className="min-h-screen pt-32 pb-24 flex items-center justify-center text-center">
       <div className="container mx-auto px-4 md:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
