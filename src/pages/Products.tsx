@@ -93,15 +93,29 @@ export default function Products() {
             {selectedProduct ? (
               <motion.div 
                 key={selectedProduct.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                variants={{
+                  hidden: { opacity: 0 },
+                  visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
+                  exit: { opacity: 0, transition: { staggerChildren: 0.05 } }
+                }}
                 className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-center"
               >
                 {/* Preview Image */}
-                <div className="w-full lg:w-1/2 aspect-[4/3] relative rounded-2xl overflow-hidden bg-[#111] border border-white/10 shadow-2xl group">
-                  <img 
+                <motion.div 
+                  variants={{
+                    hidden: { opacity: 0, scale: 0.92, y: 20 },
+                    visible: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } },
+                    exit: { opacity: 0, scale: 0.96, y: -20, transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] } }
+                  }}
+                  className="w-full lg:w-1/2 aspect-[4/3] relative rounded-2xl overflow-hidden bg-[#111] border border-white/10 shadow-2xl group"
+                >
+                  <motion.img 
+                    initial={{ scale: 1.15 }}
+                    animate={{ scale: 1 }}
+                    transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
                     src={`https://picsum.photos/seed/modina-${selectedProduct.id}-preview/1200/900?grayscale`}
                     alt={selectedProduct.name}
                     className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-out"
@@ -116,10 +130,17 @@ export default function Products() {
                       <CheckCircle2 className="w-3 h-3" /> Featured
                     </span>
                   </div>
-                </div>
+                </motion.div>
 
                 {/* Preview Details */}
-                <div className="w-full lg:w-1/2 flex flex-col">
+                <motion.div 
+                  variants={{
+                    hidden: { opacity: 0, x: 30 },
+                    visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } },
+                    exit: { opacity: 0, x: -30, transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] } }
+                  }}
+                  className="w-full lg:w-1/2 flex flex-col"
+                >
                   <span className="font-mono text-[11px] tracking-[0.3em] text-gray-500 uppercase mb-4">
                     SKU-{selectedProduct.id.toString().padStart(3, '0')}
                   </span>
@@ -158,7 +179,7 @@ export default function Products() {
                       <span className="text-white text-xs font-bold tracking-widest uppercase">{selectedProduct.availability}</span>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               </motion.div>
             ) : (
               <div className="h-[400px] flex items-center justify-center">
