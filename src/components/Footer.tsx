@@ -12,11 +12,13 @@ export default function Footer() {
           {/* Brand & Intro */}
           <div className="lg:col-span-4 flex flex-col gap-6 lg:gap-8">
             <Link to="/" className="flex items-center gap-4">
-              <div className="w-12 h-12 lg:w-16 lg:h-16 bg-white rounded-full flex items-center justify-center overflow-hidden">
+              <div className="w-12 h-12 lg:w-16 lg:h-16 bg-white rounded-full flex items-center justify-center overflow-hidden shrink-0">
                 <Logo className="w-full h-full object-contain" />
               </div>
-              <span className="font-display font-bold text-lg lg:text-xl tracking-wide text-white uppercase">
-                MODINA <span className="text-modina-slate">RIM</span>
+              <span className="font-display font-bold text-base lg:text-lg tracking-widest uppercase flex items-center flex-wrap gap-x-1.5 lg:gap-x-2">
+                <span className="text-white">MODINA</span>
+                <span className="text-modina-slate">RIM</span>
+                <span className="text-gray-500 text-[10px] lg:text-xs font-medium tracking-[0.15em]">& PARTS LTD.</span>
               </span>
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed">

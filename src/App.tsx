@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './layouts/Layout';
 import Home from './pages/Home';
 import AIEngineer from './pages/AIEngineer';
+import Products from './pages/Products';
 import PlaceholderPage from './components/PlaceholderPage';
 
 export default function App() {
@@ -16,7 +17,7 @@ export default function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="about" element={<PlaceholderPage title="About Us" description="Discover the history, mission, and leadership behind Modina Rim & Parts Ltd." />} />
-          <Route path="products" element={<PlaceholderPage title="Our Products" description="Explore our comprehensive catalog of precision-engineered auto parts and rims." />} />
+          <Route path="products" element={<Products />} />
           <Route path="quality" element={<PlaceholderPage title="Quality & Innovation" description="Learn about our rigorous quality assurance processes and international certifications." />} />
           <Route path="ai-engineer" element={<AIEngineer />} />
           <Route path="downloads" element={<PlaceholderPage title="Download Center" description="Access technical specifications, catalogs, and ISO certificates." />} />

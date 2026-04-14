@@ -28,14 +28,6 @@ export default function Navbar() {
 
   const navItems = [
     { name: 'Home', path: '/' },
-    { 
-      name: 'Company', 
-      dropdown: [
-        { name: 'About Us', path: '/about' },
-        { name: 'Mission & Core Values', path: '/about#mission' },
-        { name: 'Sustainability & CSR', path: '/about#sustainability' }
-      ]
-    },
     { name: 'Products', path: '/products' },
     {
       name: 'Quality',
@@ -43,6 +35,14 @@ export default function Navbar() {
         { name: 'Quality Assurance Process', path: '/quality' },
         { name: 'Certificates & Awards', path: '/quality#certificates' },
         { name: 'AI Engineer', path: '/ai-engineer' }
+      ]
+    },
+    { 
+      name: 'Company', 
+      dropdown: [
+        { name: 'About Us', path: '/about' },
+        { name: 'Mission & Core Values', path: '/about#mission' },
+        { name: 'Sustainability & CSR', path: '/about#sustainability' }
       ]
     },
     {
