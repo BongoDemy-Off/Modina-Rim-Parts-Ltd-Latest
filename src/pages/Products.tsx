@@ -1,9 +1,22 @@
-import React, { useState, useMemo, useEffect, useRef } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Search, ArrowRight, LayoutGrid, Bike, Disc, Wrench, CheckCircle2, ShieldCheck, Box } from 'lucide-react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { 
+  Search, ArrowRight, X, Send, Download, 
+  ChevronRight, ChevronLeft, LayoutGrid, Minus
+} from 'lucide-react';
 
-const productsData = [
+export interface Product {
+  id: number;
+  name: string;
+  category: string;
+  description: string;
+  material: string;
+  certification: string;
+  availability: string;
+}
+
+const productsData: Product[] = [
   { id: 1, name: 'Box Frame Bearing & Racer (Black Blue & Red)', category: 'Hardware', description: 'Premium quality box frame bearing and racer, available in black, blue, and red finishes for maximum durability.', material: 'High-Carbon Steel', certification: 'ISO 9001:2015', availability: 'In Stock' },
   { id: 2, name: 'Motor Cycle Center Stand', category: 'Motorcycle', description: 'Heavy-duty center stand engineered for perfect balance and stability.', material: 'Reinforced Steel Alloy', certification: 'ISO 9001:2015', availability: 'In Stock' },
   { id: 3, name: 'Motor Cycle Double Stand', category: 'Motorcycle', description: 'Reinforced double stand providing superior support and longevity.', material: 'Reinforced Steel Alloy', certification: 'ISO 9001:2015', availability: 'In Stock' },
@@ -27,317 +40,414 @@ const productsData = [
   { id: 21, name: 'Wasar', category: 'Hardware', description: 'Precision-stamped washers for secure and vibration-resistant fastening.', material: 'Galvanized Steel', certification: 'ISO 9001:2015', availability: 'In Stock' },
 ];
 
-const categories = [
-  { id: 'All', name: 'All Products', icon: LayoutGrid },
-  { id: 'Motorcycle', name: 'Motorcycle Parts', icon: Bike },
-  { id: 'Rims', name: 'Rims & Wheels', icon: Disc },
-  { id: 'Hardware', name: 'Hardware & Accessories', icon: Wrench },
-];
+const categories = ['All', 'Motorcycle', 'Rims', 'Hardware'];
 
 export default function Products() {
   const location = useLocation();
   const [activeCategory, setActiveCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedProduct, setSelectedProduct] = useState<typeof productsData[0] | null>(productsData[0]);
-  const previewRef = useRef<HTMLDivElement>(null);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 9;
 
-  // Handle URL query parameters for category selection
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const categoryParam = params.get('category');
     if (categoryParam) {
-      const matchedCategory = categories.find(c => c.id.toLowerCase() === categoryParam.toLowerCase());
-      if (matchedCategory) {
-        setActiveCategory(matchedCategory.id);
-      }
+      const matched = categories.find(c => c.toLowerCase() === categoryParam.toLowerCase());
+      if (matched) setActiveCategory(matched);
     }
   }, [location]);
+
+  useEffect(() => {
+    const fn = (e: KeyboardEvent) => { if (e.key === 'Escape') setIsDrawerOpen(false); };
+    document.addEventListener('keydown', fn);
+    return () => document.removeEventListener('keydown', fn);
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = isDrawerOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [isDrawerOpen]);
 
   const filteredProducts = useMemo(() => {
     return productsData.filter(product => {
       const matchesCategory = activeCategory === 'All' || product.category === activeCategory;
       const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                            product.description.toLowerCase().includes(searchQuery.toLowerCase());
+                            product.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                            `SKU-${product.id.toString().padStart(3, '0')}`.toLowerCase().includes(searchQuery.toLowerCase());
       return matchesCategory && matchesSearch;
     });
   }, [activeCategory, searchQuery]);
 
-  // Ensure a product is always selected if the list isn't empty
   useEffect(() => {
-    if (filteredProducts.length > 0) {
-      if (!selectedProduct || !filteredProducts.find(p => p.id === selectedProduct.id)) {
-        setSelectedProduct(filteredProducts[0]);
-      }
-    } else {
-      setSelectedProduct(null);
-    }
-  }, [filteredProducts, selectedProduct]);
+    setCurrentPage(1);
+  }, [activeCategory, searchQuery]);
 
-  const handleProductSelect = (product: typeof productsData[0]) => {
-    setSelectedProduct(product);
-    if (previewRef.current) {
-      previewRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
+  const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
+  const paginatedProducts = filteredProducts.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
 
   return (
-    <div className="min-h-screen bg-[#050505] pt-20">
+    <div className="min-h-screen bg-[#050505] text-white pt-[80px]">
       
-      {/* TOP SECTION: Selected Product Preview */}
-      <div ref={previewRef} className="w-full bg-[#0a0a0a] border-b border-white/5 relative overflow-hidden">
-        {/* Subtle background glow based on red theme */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-modina-red/5 rounded-full blur-[120px] pointer-events-none"></div>
-        
-        <div className="container mx-auto px-6 md:px-12 lg:px-24 py-16 lg:py-24 relative z-10">
-          <AnimatePresence mode="wait">
-            {selectedProduct ? (
-              <motion.div 
-                key={selectedProduct.id}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-                variants={{
-                  hidden: { opacity: 0 },
-                  visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
-                  exit: { opacity: 0, transition: { staggerChildren: 0.05 } }
-                }}
-                className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-center"
-              >
-                {/* Preview Image */}
-                <motion.div 
-                  variants={{
-                    hidden: { opacity: 0, scale: 0.92, y: 20 },
-                    visible: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } },
-                    exit: { opacity: 0, scale: 0.96, y: -20, transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] } }
-                  }}
-                  className="w-full lg:w-1/2 aspect-[4/3] relative rounded-2xl overflow-hidden bg-[#111] border border-white/10 shadow-2xl group"
-                >
-                  <motion.img 
-                    initial={{ scale: 1.15 }}
-                    animate={{ scale: 1 }}
-                    transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-                    src={`https://picsum.photos/seed/modina-${selectedProduct.id}-preview/1200/900?grayscale`}
-                    alt={selectedProduct.name}
-                    className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-out"
-                    referrerPolicy="no-referrer"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent opacity-60"></div>
-                  <div className="absolute bottom-6 left-6 flex gap-2">
-                    <span className="bg-black/60 backdrop-blur-md border border-white/10 text-white text-[10px] font-bold tracking-[0.2em] uppercase px-4 py-2 rounded-full">
-                      {selectedProduct.category}
-                    </span>
-                    <span className="bg-modina-red/90 backdrop-blur-md border border-modina-red text-white text-[10px] font-bold tracking-[0.2em] uppercase px-4 py-2 rounded-full flex items-center gap-2">
-                      <CheckCircle2 className="w-3 h-3" /> Featured
-                    </span>
-                  </div>
-                </motion.div>
+      {/* SECTION 1 — HERO */}
+      <section className="w-full py-20 lg:py-28 bg-[#050505]">
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.5, ease: 'easeOut' }}
+          className="flex flex-col items-center text-center max-w-3xl mx-auto px-6"
+        >
+          {/* [1] Breadcrumb */}
+          <div className="flex items-center gap-2 justify-center text-[10px] font-mono tracking-[0.25em] text-[#2a2a2a] uppercase mb-10">
+            <Link to="/">Home</Link>
+            <ChevronRight className="w-2.5 h-2.5 text-[#1e1e1e]" />
+            <span className="text-[#3a3a3a]">Products</span>
+            <ChevronRight className="w-2.5 h-2.5 text-[#1e1e1e]" />
+            <span className="text-[#555]">Catalog 2026</span>
+          </div>
 
-                {/* Preview Details */}
-                <motion.div 
-                  variants={{
-                    hidden: { opacity: 0, x: 30 },
-                    visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } },
-                    exit: { opacity: 0, x: -30, transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] } }
-                  }}
-                  className="w-full lg:w-1/2 flex flex-col"
-                >
-                  <span className="font-mono text-[11px] tracking-[0.3em] text-gray-500 uppercase mb-4">
-                    SKU-{selectedProduct.id.toString().padStart(3, '0')}
-                  </span>
-                  <h1 className="text-4xl lg:text-5xl xl:text-6xl font-display font-bold text-white mb-6 leading-[1.1] tracking-tight">
-                    {selectedProduct.name}
-                  </h1>
-                  <p className="text-gray-400 text-lg leading-relaxed font-light mb-10 max-w-xl">
-                    {selectedProduct.description}
-                  </p>
+          {/* [2] Horizontal rule */}
+          <hr className="w-32 border-[#1a1a1a] mx-auto mb-10" />
 
-                  {/* Specs Grid */}
-                  <div className="grid grid-cols-2 gap-6 mb-10">
-                    <div className="bg-white/[0.02] border border-white/5 rounded-xl p-5 flex items-start gap-4">
-                      <Box className="w-5 h-5 text-modina-red shrink-0 mt-0.5" />
-                      <div>
-                        <span className="block text-[10px] font-bold tracking-[0.2em] uppercase text-gray-500 mb-1">Material</span>
-                        <span className="block text-white text-sm font-medium">{selectedProduct.material}</span>
+          {/* [3] Main Title */}
+          <h1 className="text-6xl md:text-7xl lg:text-8xl xl:text-[9rem] font-light tracking-[0.25em] md:tracking-[0.35em] text-white uppercase leading-none mb-0">
+            Products
+          </h1>
+
+          {/* [4] Subtitle */}
+          <p className="font-mono text-[10px] md:text-[11px] tracking-[0.3em] text-[#2a2a2a] uppercase mt-6 mb-0">
+            Modina Rim & Parts Ltd. — Est. 2010 — ISO 9001:2015
+          </p>
+
+          {/* [5] Horizontal rule */}
+          <hr className="w-full max-w-md border-[#1a1a1a] mx-auto mt-10 mb-10" />
+
+          {/* [6] Stats Row */}
+          <div className="flex items-center justify-center gap-0">
+            <div className="flex flex-col items-center px-8 md:px-12 lg:px-16">
+              <span className="text-2xl md:text-3xl font-light text-white tracking-tight">21</span>
+              <span className="font-mono text-[9px] tracking-[0.3em] text-[#2a2a2a] uppercase mt-1">Products</span>
+            </div>
+            <div className="w-[0.5px] h-8 bg-[#1a1a1a]" />
+            <div className="flex flex-col items-center px-8 md:px-12 lg:px-16">
+              <span className="text-2xl md:text-3xl font-light text-white tracking-tight">4</span>
+              <span className="font-mono text-[9px] tracking-[0.3em] text-[#2a2a2a] uppercase mt-1">Categories</span>
+            </div>
+            <div className="w-[0.5px] h-8 bg-[#1a1a1a]" />
+            <div className="flex flex-col items-center px-8 md:px-12 lg:px-16">
+              <span className="text-2xl md:text-3xl font-light text-white tracking-tight">ISO</span>
+              <span className="font-mono text-[9px] tracking-[0.3em] text-[#2a2a2a] uppercase mt-1">Certified</span>
+            </div>
+          </div>
+
+          {/* [7] Scroll indicator */}
+          <div className="flex flex-col items-center gap-3 mt-14">
+            <div className="w-[0.5px] h-10 bg-[#1a1a1a]" />
+            <span className="font-mono text-[9px] tracking-[0.3em] text-[#252525] uppercase">Scroll</span>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* SECTION 2 — FILTER BAR */}
+      <section className="sticky top-[80px] z-30 w-full bg-[#050505] border-t border-[#141414] border-b">
+        <div className="container mx-auto px-6 md:px-12 lg:px-24 flex items-center justify-between h-14">
+          
+          {/* LEFT — Category filters */}
+          <div className="flex items-center gap-0 overflow-x-auto scrollbar-none">
+            {categories.map((cat, idx) => {
+              const count = cat === 'All' ? productsData.length : productsData.filter(p => p.category === cat).length;
+              const isActive = activeCategory === cat;
+              return (
+                <React.Fragment key={cat}>
+                  <button 
+                    type="button"
+                    onClick={() => setActiveCategory(cat)}
+                    className={`px-6 h-14 font-mono text-[10px] tracking-[0.2em] uppercase transition-colors duration-200 relative whitespace-nowrap ${isActive ? 'text-white' : 'text-[#2e2e2e] hover:text-[#666]'}`}
+                  >
+                    {cat} ({count})
+                    {isActive && <span className="absolute bottom-0 left-0 w-full h-[1px] bg-white" />}
+                  </button>
+                  {idx < categories.length - 1 && <span className="w-[0.5px] h-5 bg-[#1a1a1a] shrink-0" />}
+                </React.Fragment>
+              );
+            })}
+          </div>
+
+          {/* RIGHT — Search + count */}
+          <div className="flex items-center gap-6 shrink-0">
+            <span className="font-mono text-[10px] tracking-[0.2em] text-[#252525] uppercase hidden sm:block">
+              — {filteredProducts.length} RESULTS
+            </span>
+            <div className="relative">
+              <input 
+                type="text"
+                placeholder="SEARCH_"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="bg-transparent border-b border-[#1e1e1e] focus:border-[#333] outline-none font-mono text-[11px] tracking-[0.1em] text-white placeholder:text-[#222] placeholder:tracking-[0.15em] pb-1.5 w-32 focus:w-48 transition-all duration-300"
+              />
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* SECTION 3 — PRODUCT GRID */}
+      <section className="container mx-auto px-6 md:px-12 lg:px-24 py-16 lg:py-24">
+        <div className="bg-[#141414] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[1px]">
+          <AnimatePresence mode="popLayout">
+            {paginatedProducts.length > 0 ? (
+              paginatedProducts.map((product) => {
+                const isSelected = selectedProduct?.id === product.id && isDrawerOpen;
+                return (
+                  <motion.div
+                    key={product.id}
+                    layout
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                    onClick={() => { setSelectedProduct(product); setIsDrawerOpen(true); }}
+                    className={`group relative bg-[#080808] cursor-pointer flex flex-col overflow-hidden min-h-[360px] ${isSelected ? 'outline outline-1 outline-[#E52525] outline-offset-0' : ''}`}
+                  >
+                    {/* [1] IMAGE AREA */}
+                    <div className="relative flex-1 min-h-[220px] overflow-hidden bg-[#0a0a0a]">
+                      <img 
+                        src={`https://picsum.photos/seed/modina-${product.id}-v2/600/400`}
+                        alt={product.name}
+                        loading="lazy"
+                        referrerPolicy="no-referrer"
+                        className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-[1200ms] ease-out opacity-50 group-hover:opacity-80 scale-100 group-hover:scale-[1.04]"
+                      />
+                      <span className="absolute top-5 right-5 font-mono text-[11px] tracking-[0.2em] text-[#1e1e1e] group-hover:text-[#2e2e2e] transition-colors">
+                        —{product.id.toString().padStart(2, '0')}
+                      </span>
+                      <span className="absolute bottom-0 left-0 font-mono text-[8px] tracking-[0.25em] uppercase text-[#252525] group-hover:text-[#3a3a3a] transition-colors pb-3 pl-5">
+                        {product.category}
+                      </span>
+                    </div>
+
+                    {/* [2] CARD FOOTER */}
+                    <div className="p-5 border-t border-[#141414] flex flex-col gap-3">
+                      <h3 className="text-[13px] font-light text-[#666] leading-snug group-hover:text-white transition-colors duration-500 line-clamp-2">
+                        {product.name}
+                      </h3>
+                      <div className="flex items-center justify-between mt-auto">
+                        <span className="font-mono text-[9px] tracking-[0.2em] text-[#1e1e1e]">
+                          SKU–{product.id.toString().padStart(3, '0')}
+                        </span>
+                        <ArrowRight className={`w-3 h-3 transition-all duration-300 ${isSelected ? 'text-[#E52525] opacity-100' : 'text-[#1e1e1e] opacity-0 group-hover:opacity-100 group-hover:text-[#444]'}`} />
                       </div>
                     </div>
-                    <div className="bg-white/[0.02] border border-white/5 rounded-xl p-5 flex items-start gap-4">
-                      <ShieldCheck className="w-5 h-5 text-modina-red shrink-0 mt-0.5" />
-                      <div>
-                        <span className="block text-[10px] font-bold tracking-[0.2em] uppercase text-gray-500 mb-1">Certification</span>
-                        <span className="block text-white text-sm font-medium">{selectedProduct.certification}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-6">
-                    <button className="px-8 py-4 bg-white text-black font-bold tracking-[0.2em] text-xs uppercase rounded-full hover:bg-modina-red hover:text-white transition-all duration-300 flex items-center gap-3 group">
-                      Request Quote
-                      <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
-                    </button>
-                    <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]"></div>
-                      <span className="text-white text-xs font-bold tracking-widest uppercase">{selectedProduct.availability}</span>
-                    </div>
-                  </div>
-                </motion.div>
-              </motion.div>
+                  </motion.div>
+                );
+              })
             ) : (
-              <div className="h-[400px] flex items-center justify-center">
-                <p className="text-gray-500 font-mono tracking-widest uppercase">No product selected</p>
+              <div className="col-span-full flex flex-col items-center justify-center py-32 bg-[#080808]">
+                <Minus className="w-8 h-8 text-[#1e1e1e] mb-6" />
+                <span className="font-mono text-[10px] tracking-[0.3em] text-[#252525] uppercase">No results found</span>
+                <button 
+                  type="button"
+                  onClick={() => { setSearchQuery(''); setActiveCategory('All'); }}
+                  className="mt-6 font-mono text-[10px] tracking-[0.2em] text-[#333] uppercase hover:text-white transition-colors"
+                >
+                  — Clear Filter
+                </button>
               </div>
             )}
           </AnimatePresence>
         </div>
-      </div>
 
-      {/* BOTTOM SECTION: Sidebar & Product List */}
-      <div className="container mx-auto px-6 md:px-12 lg:px-24 py-16 lg:py-24">
-        <div className="flex flex-col lg:flex-row gap-12 lg:gap-20">
-          
-          {/* Left Sidebar: Categories & Search */}
-          <div className="w-full lg:w-72 shrink-0">
-            <div className="sticky top-32 flex flex-col gap-10">
-              
-              {/* Search */}
-              <div>
-                <h3 className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-500 mb-4">Search Catalog</h3>
-                <div className="relative group">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 group-focus-within:text-white transition-colors" />
-                  <input
-                    type="text"
-                    placeholder="Find products..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-3 pl-12 pr-4 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-modina-red focus:bg-white/[0.05] transition-all"
+        {/* PAGINATION CONTROLS */}
+        {totalPages > 1 && (
+          <div className="mt-16 flex items-center justify-between border-t border-[#141414] pt-8">
+            <button
+              type="button"
+              onClick={() => {
+                setCurrentPage(p => Math.max(1, p - 1));
+                window.scrollTo({ top: 400, behavior: 'smooth' });
+              }}
+              disabled={currentPage === 1}
+              className="font-mono text-[10px] tracking-[0.2em] uppercase text-[#666] hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors flex items-center gap-3"
+            >
+              <ChevronLeft className="w-3 h-3" /> Prev
+            </button>
+            <span className="font-mono text-[10px] tracking-[0.3em] text-[#444] uppercase">
+              Page {currentPage.toString().padStart(2, '0')} / {totalPages.toString().padStart(2, '0')}
+            </span>
+            <button
+              type="button"
+              onClick={() => {
+                setCurrentPage(p => Math.min(totalPages, p + 1));
+                window.scrollTo({ top: 400, behavior: 'smooth' });
+              }}
+              disabled={currentPage === totalPages}
+              className="font-mono text-[10px] tracking-[0.2em] uppercase text-[#666] hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors flex items-center gap-3"
+            >
+              Next <ChevronRight className="w-3 h-3" />
+            </button>
+          </div>
+        )}
+      </section>
+
+      {/* SECTION 4 — PRODUCT DETAIL DRAWER */}
+      <AnimatePresence>
+        {isDrawerOpen && selectedProduct && (
+          <>
+            {/* OVERLAY */}
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              onClick={() => setIsDrawerOpen(false)}
+              className="fixed inset-0 bg-[#050505]/80 z-40"
+            />
+            
+            {/* DRAWER PANEL */}
+            <motion.div 
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'tween', duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="fixed right-0 top-0 h-full w-full max-w-[480px] md:max-w-[520px] bg-[#080808] z-50 flex flex-col overflow-hidden border-l-[0.5px] border-[#E52525]"
+            >
+              {/* DRAWER HEADER */}
+              <div className="sticky top-0 bg-[#080808] z-10 flex items-center justify-between px-8 py-5 border-b border-[#141414]">
+                <div className="flex items-center gap-4">
+                  <span className="font-mono text-[9px] tracking-[0.3em] text-[#E52525] uppercase">
+                    {selectedProduct.category}
+                  </span>
+                  <span className="w-[0.5px] h-3 bg-[#2a2a2a]" />
+                  <span className="font-mono text-[9px] tracking-[0.3em] text-[#252525] uppercase">
+                    SKU–{selectedProduct.id.toString().padStart(3, '0')}
+                  </span>
+                </div>
+                <button 
+                  type="button"
+                  onClick={() => setIsDrawerOpen(false)}
+                  className="font-mono text-[9px] tracking-[0.25em] text-[#333] uppercase hover:text-white transition-colors flex items-center gap-2"
+                >
+                  Close <X className="w-3 h-3" />
+                </button>
+              </div>
+
+              {/* DRAWER BODY */}
+              <div className="flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden">
+                {/* [1] PRODUCT IMAGE */}
+                <div className="w-full aspect-[4/3] bg-[#050505]">
+                  <img 
+                    src={`https://picsum.photos/seed/modina-${selectedProduct.id}-drawer/800/600`}
+                    alt={selectedProduct.name}
+                    loading="lazy"
+                    referrerPolicy="no-referrer"
+                    className="w-full h-full object-cover grayscale-0 opacity-70"
                   />
                 </div>
-              </div>
 
-              {/* Categories */}
-              <div>
-                <h3 className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-500 mb-4">Categories</h3>
-                <div className="flex flex-col gap-2">
-                  {categories.map((category) => {
-                    const Icon = category.icon;
-                    const isActive = activeCategory === category.id;
-                    return (
-                      <button
-                        key={category.id}
-                        onClick={() => setActiveCategory(category.id)}
-                        className={`flex items-center gap-4 px-5 py-4 rounded-xl transition-all duration-300 ${
-                          isActive 
-                            ? 'bg-modina-red/10 border border-modina-red/30 text-white' 
-                            : 'bg-transparent border border-transparent text-gray-400 hover:bg-white/[0.03] hover:text-white'
-                        }`}
-                      >
-                        <Icon className={`w-5 h-5 ${isActive ? 'text-modina-red' : 'text-gray-500'}`} />
-                        <span className="text-sm font-bold tracking-wide">{category.name}</span>
-                        {isActive && (
-                          <motion.div 
-                            layoutId="activeCategoryIndicator"
-                            className="ml-auto w-1.5 h-1.5 rounded-full bg-modina-red"
-                          />
-                        )}
-                      </button>
-                    );
-                  })}
+                {/* [2] CONTENT BLOCK */}
+                <div className="px-8 py-8 flex flex-col gap-0">
+                  <h2 className="text-2xl md:text-3xl font-light text-white leading-tight tracking-tight mb-2">
+                    {selectedProduct.name}
+                  </h2>
+                  <p className="font-mono text-[10px] tracking-[0.1em] text-[#333] leading-relaxed mb-8 mt-1">
+                    {selectedProduct.description}
+                  </p>
+
+                  {/* SPEC TABLE */}
+                  <div className="border-t border-[#141414]">
+                    <table className="w-full mt-6">
+                      <tbody>
+                        <tr className="border-b border-[#0f0f0f]">
+                          <td className="font-mono text-[9px] tracking-[0.2em] text-[#252525] uppercase py-4 w-1/3">Material</td>
+                          <td className="font-mono text-[11px] tracking-[0.05em] text-[#666] py-4 text-right">{selectedProduct.material}</td>
+                        </tr>
+                        <tr className="border-b border-[#0f0f0f]">
+                          <td className="font-mono text-[9px] tracking-[0.2em] text-[#252525] uppercase py-4 w-1/3">Certification</td>
+                          <td className="font-mono text-[11px] tracking-[0.05em] text-[#666] py-4 text-right">{selectedProduct.certification}</td>
+                        </tr>
+                        <tr className="border-b border-[#0f0f0f]">
+                          <td className="font-mono text-[9px] tracking-[0.2em] text-[#252525] uppercase py-4 w-1/3">Category</td>
+                          <td className="font-mono text-[11px] tracking-[0.05em] text-[#666] py-4 text-right">{selectedProduct.category}</td>
+                        </tr>
+                        <tr className="border-b border-[#0f0f0f]">
+                          <td className="font-mono text-[9px] tracking-[0.2em] text-[#252525] uppercase py-4 w-1/3">Availability</td>
+                          <td className="font-mono text-[11px] tracking-[0.05em] text-[#666] py-4 text-right">In Stock</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  {/* FEATURES */}
+                  <div className="mt-8 border-t border-[#141414] pt-6">
+                    <p className="font-mono text-[9px] tracking-[0.3em] text-[#252525] uppercase mb-5">Key Specifications</p>
+                    <div className="flex items-start gap-4 mb-4">
+                      <span className="font-mono text-[8px] tracking-[0.2em] text-[#E52525] mt-0.5">—</span>
+                      <span className="text-[11px] text-[#444] leading-relaxed font-light">CNC-machined to ±0.01mm tolerance for perfect OEM fitment</span>
+                    </div>
+                    <div className="flex items-start gap-4 mb-4">
+                      <span className="font-mono text-[8px] tracking-[0.2em] text-[#E52525] mt-0.5">—</span>
+                      <span className="text-[11px] text-[#444] leading-relaxed font-light">Heat-treated high-carbon steel or premium alloy construction</span>
+                    </div>
+                    <div className="flex items-start gap-4 mb-4">
+                      <span className="font-mono text-[8px] tracking-[0.2em] text-[#E52525] mt-0.5">—</span>
+                      <span className="text-[11px] text-[#444] leading-relaxed font-light">ISO 9001:2015 certified manufacturing process throughout</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-            </div>
-          </div>
-
-          {/* Right Side: Product Grid */}
-          <div className="flex-grow">
-            <div className="flex justify-between items-end mb-8 border-b border-white/10 pb-4">
-              <h2 className="text-2xl font-display font-bold text-white">
-                {categories.find(c => c.id === activeCategory)?.name || 'Products'}
-              </h2>
-              <span className="text-gray-500 text-sm font-mono">
-                {filteredProducts.length} Results
-              </span>
-            </div>
-
-            <motion.div 
-              layout
-              className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
-            >
-              <AnimatePresence mode="popLayout">
-                {filteredProducts.length > 0 ? (
-                  filteredProducts.map((product) => {
-                    const isSelected = selectedProduct?.id === product.id;
-                    return (
-                      <motion.div
-                        layout
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.95 }}
-                        transition={{ duration: 0.4 }}
-                        key={product.id}
-                        onClick={() => handleProductSelect(product)}
-                        className={`group cursor-pointer rounded-2xl overflow-hidden border transition-all duration-300 flex flex-col bg-[#0a0a0a] ${
-                          isSelected 
-                            ? 'border-modina-red shadow-[0_0_30px_rgba(229,37,37,0.15)]' 
-                            : 'border-white/5 hover:border-white/20 hover:bg-[#111]'
-                        }`}
-                      >
-                        {/* Card Image */}
-                        <div className="relative aspect-[4/3] w-full bg-[#050505] overflow-hidden">
-                          <img 
-                            src={`https://picsum.photos/seed/modina-${product.id}-thumb/600/450?grayscale`}
-                            alt={product.name}
-                            className={`w-full h-full object-cover transition-all duration-700 ease-out ${
-                              isSelected ? 'opacity-100 grayscale-0 scale-105' : 'opacity-60 grayscale group-hover:opacity-90 group-hover:grayscale-0 group-hover:scale-105'
-                            }`}
-                            referrerPolicy="no-referrer"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] to-transparent opacity-80"></div>
-                          
-                          {/* Selected Indicator */}
-                          {isSelected && (
-                            <div className="absolute top-4 right-4 bg-modina-red text-white text-[9px] font-bold tracking-widest uppercase px-3 py-1.5 rounded-full">
-                              Viewing
-                            </div>
-                          )}
-                        </div>
-
-                        {/* Card Content */}
-                        <div className="p-6 flex flex-col flex-grow">
-                          <span className="text-[9px] font-bold tracking-[0.2em] uppercase text-gray-500 mb-2">
-                            {product.category}
-                          </span>
-                          <h3 className={`text-base font-display font-bold leading-snug mb-4 transition-colors ${
-                            isSelected ? 'text-modina-red' : 'text-white group-hover:text-gray-200'
-                          }`}>
-                            {product.name}
-                          </h3>
-                          <div className="mt-auto flex items-center text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400 group-hover:text-white transition-colors">
-                            {isSelected ? 'Currently Viewing' : 'Select to View'}
-                            <ArrowRight className={`ml-2 w-3 h-3 transition-transform ${isSelected ? 'translate-x-1 text-modina-red' : 'group-hover:translate-x-1'}`} />
-                          </div>
-                        </div>
-                      </motion.div>
-                    );
-                  })
-                ) : (
-                  <motion.div 
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="col-span-full bg-[#0a0a0a] border border-white/5 rounded-2xl flex flex-col items-center justify-center py-24 text-center"
-                  >
-                    <Search className="w-10 h-10 text-gray-700 mb-4" />
-                    <h3 className="text-lg font-display font-bold text-white mb-2">No products found</h3>
-                    <p className="text-gray-500 text-sm max-w-sm">
-                      Try adjusting your search or selecting a different category.
-                    </p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              {/* DRAWER FOOTER */}
+              <div className="sticky bottom-0 bg-[#080808] px-8 py-6 border-t border-[#141414] flex flex-col gap-3">
+                <button type="button" className="w-full bg-[#E52525] text-white font-mono text-[10px] tracking-[0.3em] uppercase py-4 hover:bg-[#cc1f1f] transition-colors flex items-center justify-center gap-4">
+                  Request Inquiry
+                  <ArrowRight className="w-3 h-3" />
+                </button>
+                <button type="button" className="w-full border border-[#1a1a1a] text-[#252525] font-mono text-[10px] tracking-[0.3em] uppercase py-3.5 hover:border-[#2e2e2e] hover:text-[#444] transition-colors flex items-center justify-center gap-4">
+                  Download Spec Sheet
+                  <Download className="w-3 h-3" />
+                </button>
+                <p className="font-mono text-[8px] tracking-[0.2em] text-[#1a1a1a] uppercase text-center mt-1">
+                  Response within 24 business hours
+                </p>
+              </div>
             </motion.div>
-          </div>
+          </>
+        )}
+      </AnimatePresence>
 
+      {/* SECTION 5 — BOTTOM CTA BANNER */}
+      <section className="w-full border-t border-[#141414] py-24 lg:py-32 bg-[#050505]">
+        <div className="container mx-auto px-6 md:px-12 lg:px-24 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-10">
+          <div>
+            <p className="font-mono text-[9px] tracking-[0.3em] text-[#252525] uppercase mb-4">
+              — Partner With Us
+            </p>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-[0.1em] uppercase leading-tight">
+              Ready to Place<br />an Order?
+            </h2>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-4">
+            <Link 
+              to="/contact"
+              className="bg-[#E52525] text-white font-mono text-[10px] tracking-[0.3em] uppercase px-10 py-4 hover:bg-[#cc1f1f] transition-colors flex items-center gap-4"
+            >
+              Contact Sales
+              <ArrowRight className="w-3 h-3" />
+            </Link>
+            <button type="button" className="border border-[#1a1a1a] text-[#2a2a2a] font-mono text-[10px] tracking-[0.3em] uppercase px-10 py-4 hover:border-[#333] hover:text-[#555] transition-colors flex items-center gap-4">
+              Download Catalog
+              <Download className="w-3 h-3" />
+            </button>
+          </div>
         </div>
-      </div>
+      </section>
+
     </div>
   );
 }
