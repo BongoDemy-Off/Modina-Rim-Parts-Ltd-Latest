@@ -9,6 +9,7 @@ import Home from './pages/Home';
 import AIEngineer from './pages/AIEngineer';
 import Products from './pages/Products';
 import About from './pages/About';
+import Contact from './pages/Contact';
 import PlaceholderPage from './components/PlaceholderPage';
 
 export default function App() {
@@ -24,7 +25,7 @@ export default function App() {
           <Route path="downloads" element={<PlaceholderPage title="Download Center" description="Access technical specifications, catalogs, and ISO certificates." />} />
           <Route path="news" element={<PlaceholderPage title="News & Events" description="Stay updated with the latest corporate news and upcoming industry events." />} />
           <Route path="blog" element={<PlaceholderPage title="Our Blog" description="Insights, technical articles, and industry trends from our experts." />} />
-          <Route path="contact" element={<PlaceholderPage title="Contact Us" description="Get in touch with our sales and support teams." />} />
+          <Route path="contact" element={<Contact />} />
           <Route path="privacy" element={<PlaceholderPage title="Privacy Policy" description="How we handle and protect your data." />} />
           <Route path="terms" element={<PlaceholderPage title="Terms of Service" description="The terms and conditions of using our website and services." />} />
         </Route>
