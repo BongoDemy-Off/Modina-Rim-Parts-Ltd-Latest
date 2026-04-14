@@ -8,6 +8,7 @@ import Layout from './layouts/Layout';
 import Home from './pages/Home';
 import AIEngineer from './pages/AIEngineer';
 import Products from './pages/Products';
+import About from './pages/About';
 import PlaceholderPage from './components/PlaceholderPage';
 
 export default function App() {
@@ -16,7 +17,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="about" element={<PlaceholderPage title="About Us" description="Discover the history, mission, and leadership behind Modina Rim & Parts Ltd." />} />
+          <Route path="about" element={<About />} />
           <Route path="products" element={<Products />} />
           <Route path="quality" element={<PlaceholderPage title="Quality & Innovation" description="Learn about our rigorous quality assurance processes and international certifications." />} />
           <Route path="ai-engineer" element={<AIEngineer />} />

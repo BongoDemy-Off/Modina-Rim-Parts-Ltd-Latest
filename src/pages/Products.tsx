@@ -167,6 +167,8 @@ export default function Products() {
                   <button 
                     type="button"
                     onClick={() => setActiveCategory(cat)}
+                    aria-label={`Filter by ${cat}`}
+                    aria-pressed={isActive}
                     className={`px-6 h-14 font-mono text-[10px] tracking-[0.2em] uppercase transition-colors duration-200 relative whitespace-nowrap ${isActive ? 'text-white' : 'text-[#2e2e2e] hover:text-[#666]'}`}
                   >
                     {cat} ({count})
@@ -187,6 +189,7 @@ export default function Products() {
               <input 
                 type="text"
                 placeholder="SEARCH_"
+                aria-label="Search products"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="bg-transparent border-b border-[#1e1e1e] focus:border-[#333] outline-none font-mono text-[11px] tracking-[0.1em] text-white placeholder:text-[#222] placeholder:tracking-[0.15em] pb-1.5 w-32 focus:w-48 transition-all duration-300"
@@ -211,9 +214,10 @@ export default function Products() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
+                    whileHover={{ scale: 1.02, zIndex: 10 }}
                     transition={{ duration: 0.4 }}
                     onClick={() => { setSelectedProduct(product); setIsDrawerOpen(true); }}
-                    className={`group relative bg-[#080808] cursor-pointer flex flex-col overflow-hidden min-h-[360px] ${isSelected ? 'outline outline-1 outline-[#E52525] outline-offset-0' : ''}`}
+                    className={`group relative bg-[#080808] cursor-pointer flex flex-col overflow-hidden min-h-[360px] ${isSelected ? 'outline outline-1 outline-[#E52525] outline-offset-0 z-10' : ''}`}
                   >
                     {/* [1] IMAGE AREA */}
                     <div className="relative flex-1 min-h-[220px] overflow-hidden bg-[#0a0a0a]">
