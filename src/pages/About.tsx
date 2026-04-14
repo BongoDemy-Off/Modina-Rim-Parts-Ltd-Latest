@@ -104,7 +104,7 @@ export default function About() {
         <div className="font-mono text-[10px] tracking-[0.25em] text-[#2a2a2a] uppercase flex items-center gap-2 justify-center mb-10">
           <Link to="/">Home</Link>
           <ChevronRight className="w-2.5 h-2.5 text-[#1e1e1e]" />
-          <span className="text-[#E52525]">About Us</span>
+          <span className="text-[#555]">About Us</span>
         </div>
 
         <hr className="w-32 border-[#1a1a1a] mx-auto mb-10" />
@@ -134,12 +134,8 @@ export default function About() {
           className="w-32 h-[1px] bg-[#E52525] mx-auto my-10"
         />
 
-        <p className="font-mono text-[10px] md:text-[11px] tracking-[0.3em] text-[#2a2a2a] uppercase flex items-center justify-center flex-wrap gap-2">
-          <span>Est. 2010</span>
-          <span className="text-[#E52525]">·</span>
-          <span>Dhaka, Bangladesh</span>
-          <span className="text-[#E52525]">·</span>
-          <span>ISO 9001:2015</span>
+        <p className="font-mono text-[10px] tracking-[0.3em] text-[#2a2a2a] uppercase">
+          Modina Rim & Parts Ltd. — Est. 2010 — Dhaka, Bangladesh
         </p>
 
         <hr className="w-full max-w-md border-[#1a1a1a] mx-auto mt-10 mb-10" />
@@ -182,9 +178,9 @@ export default function About() {
             initial={{ opacity: 0, x: -40 }}
             animate={foundingInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-            className="relative flex flex-col justify-center pr-0 lg:pr-16 py-10 lg:py-0"
+            className="flex flex-col justify-center pr-0 lg:pr-16 border-r-0 lg:border-r border-[#141414] py-10 lg:py-0"
           >
-            <p className="text-[120px] md:text-[160px] lg:text-[200px] font-light text-[#1a0000] leading-none select-none tracking-tight">
+            <p className="text-[120px] md:text-[160px] lg:text-[200px] font-light text-[#0f0f0f] leading-none select-none tracking-tight">
               2010
             </p>
             <p className="font-mono text-[10px] tracking-[0.3em] text-[#E52525] uppercase mt-2">
@@ -193,7 +189,6 @@ export default function About() {
             <p className="font-mono text-[9px] tracking-[0.25em] text-[#252525] uppercase mt-1">
               Dhaka, Bangladesh
             </p>
-            <div className="hidden lg:block absolute right-0 top-[10%] bottom-[10%] w-[0.5px] bg-[#E52525] opacity-30" />
           </motion.div>
 
           <motion.div 
@@ -202,7 +197,7 @@ export default function About() {
             transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             className="flex flex-col justify-center pl-0 lg:pl-16 py-10 lg:py-0"
           >
-            <p className="font-mono text-[9px] tracking-[0.3em] text-[#252525] uppercase mb-8">
+            <p className="font-mono text-[9px] tracking-[0.3em] text-[#E52525] uppercase mb-8">
               Our Beginning
             </p>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-tight leading-tight mb-8 uppercase">
@@ -215,9 +210,9 @@ export default function About() {
             <p className="text-[13px] text-[#3a3a3a] leading-relaxed font-light mb-5 max-w-lg">
               Today, our products reach distributors and manufacturers across multiple countries. Every component we produce is a testament to our founding belief — that precision engineering and uncompromising quality are non-negotiable.
             </p>
-            <Link to="/products" className="group inline-flex items-center gap-3 mt-4 font-mono text-[10px] tracking-[0.25em] text-[#E52525] uppercase hover:text-white transition-colors duration-300">
+            <Link to="/products" className="inline-flex items-center gap-3 mt-4 font-mono text-[10px] tracking-[0.25em] text-[#333] uppercase hover:text-white transition-colors duration-300">
               Explore Our Products
-              <ArrowRight className="w-3 h-3 text-[#E52525] group-hover:text-white transition-colors" />
+              <ArrowRight className="w-3 h-3" />
             </Link>
           </motion.div>
         </div>
@@ -259,7 +254,7 @@ export default function About() {
                   />
                   <div className="flex flex-col items-center text-center px-2">
                     <p style={{ opacity: yearOpacity[idx] }} className="font-mono text-[9px] tracking-[0.2em] text-[#E52525] uppercase mb-2">{milestone.year}</p>
-                    <p className="font-mono text-[10px] tracking-[0.15em] text-white uppercase mb-2 leading-tight cursor-pointer hover:text-[#E52525] transition-colors duration-300">
+                    <p className="font-mono text-[10px] tracking-[0.15em] text-white uppercase mb-2 leading-tight">
                       {milestone.title}
                     </p>
                     <p className="text-[11px] text-[#252525] leading-relaxed max-w-[120px] font-light">
@@ -280,14 +275,6 @@ export default function About() {
           <h2 className="text-3xl md:text-4xl font-light text-white uppercase tracking-tight">
             Mission & Values
           </h2>
-          <motion.div
-            initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            style={{ transformOrigin: 'left' }}
-            className="w-12 h-[1px] bg-[#E52525] mx-auto mt-5 mb-0"
-          />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-[1px] bg-[#141414]">
@@ -309,7 +296,7 @@ export default function About() {
               <p className="text-[13px] text-[#333] leading-relaxed font-light flex-grow">
                 {value.desc}
               </p>
-              <p className="font-mono text-[9px] tracking-[0.2em] text-[#1e1e1e] uppercase mt-6 group-hover:text-[#E52525] transition-colors">
+              <p className="font-mono text-[9px] tracking-[0.2em] text-[#1e1e1e] uppercase mt-6 group-hover:text-[#333] transition-colors">
                 {value.detail}
               </p>
             </motion.div>
@@ -333,12 +320,12 @@ export default function About() {
             />
             <div className="absolute inset-0 bg-[linear-gradient(to_top,#080808_0%,transparent_40%)]" />
             <div className="absolute bottom-8 left-8">
-              <p className="font-mono text-[8px] tracking-[0.3em] text-[#E52525] opacity-70 uppercase">Manufacturing Facility</p>
+              <p className="font-mono text-[8px] tracking-[0.3em] text-[#252525] uppercase">Manufacturing Facility</p>
               <p className="font-mono text-[9px] tracking-[0.2em] text-[#333] uppercase mt-1">Dhaka, Bangladesh</p>
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-[1px] bg-[#141414]" style={{ borderTop: '0.5px solid rgba(229, 37, 37, 0.4)' }}>
+          <div className="grid grid-cols-2 gap-[1px] bg-[#141414]">
             {stats.map((stat, idx) => (
               <div key={idx} className="bg-[#080808] flex flex-col justify-center px-10 lg:px-12 py-14 lg:py-16 group cursor-default">
                 <p className="text-5xl lg:text-6xl font-light text-[#E52525] tracking-tight mb-3">
@@ -390,7 +377,6 @@ export default function About() {
                 <p className="font-mono text-[9px] tracking-[0.2em] text-[#1e1e1e] uppercase group-hover:text-[#E52525] transition-colors duration-500">
                   {member.title}
                 </p>
-                <div className="w-0 group-hover:w-8 h-[0.5px] bg-[#E52525] mt-4 transition-all duration-500 ease-out" />
               </div>
             </motion.div>
           ))}
