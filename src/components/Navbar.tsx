@@ -33,7 +33,7 @@ export default function Navbar() {
       name: 'Quality',
       dropdown: [
         { name: 'Quality Assurance Process', path: '/quality' },
-        { name: 'Certificates & Awards', path: '/quality#certificates' },
+        { name: 'Certificates & Awards', path: '/certificates' },
         { name: 'AI Engineer', path: '/ai-engineer' }
       ]
     },
@@ -41,8 +41,8 @@ export default function Navbar() {
       name: 'Company', 
       dropdown: [
         { name: 'About Us', path: '/about' },
-        { name: 'Mission & Core Values', path: '/about#mission' },
-        { name: 'Sustainability & CSR', path: '/about#sustainability' }
+        { name: 'Mission & Core Values', path: '/mission' },
+        { name: 'Sustainability & CSR', path: '/sustainability' }
       ]
     },
     {

@@ -9,7 +9,16 @@ import Home from './pages/Home';
 import AIEngineer from './pages/AIEngineer';
 import Products from './pages/Products';
 import About from './pages/About';
+import Mission from './pages/Mission';
+import Sustainability from './pages/Sustainability';
 import Contact from './pages/Contact';
+import Quality from './pages/Quality';
+import Certificates from './pages/Certificates';
+import Downloads from './pages/Downloads';
+import News from './pages/News';
+import Blog from './pages/Blog';
+import Privacy from './pages/Privacy';
+import Terms from './pages/Terms';
 import PlaceholderPage from './components/PlaceholderPage';
 
 export default function App() {
@@ -19,15 +28,18 @@ export default function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="about" element={<About />} />
+          <Route path="mission" element={<Mission />} />
+          <Route path="sustainability" element={<Sustainability />} />
           <Route path="products" element={<Products />} />
-          <Route path="quality" element={<PlaceholderPage title="Quality & Innovation" description="Learn about our rigorous quality assurance processes and international certifications." />} />
+          <Route path="quality" element={<Quality />} />
+          <Route path="certificates" element={<Certificates />} />
           <Route path="ai-engineer" element={<AIEngineer />} />
-          <Route path="downloads" element={<PlaceholderPage title="Download Center" description="Access technical specifications, catalogs, and ISO certificates." />} />
-          <Route path="news" element={<PlaceholderPage title="News & Events" description="Stay updated with the latest corporate news and upcoming industry events." />} />
-          <Route path="blog" element={<PlaceholderPage title="Our Blog" description="Insights, technical articles, and industry trends from our experts." />} />
+          <Route path="downloads" element={<Downloads />} />
+          <Route path="news" element={<News />} />
+          <Route path="blog" element={<Blog />} />
           <Route path="contact" element={<Contact />} />
-          <Route path="privacy" element={<PlaceholderPage title="Privacy Policy" description="How we handle and protect your data." />} />
-          <Route path="terms" element={<PlaceholderPage title="Terms of Service" description="The terms and conditions of using our website and services." />} />
+          <Route path="privacy" element={<Privacy />} />
+          <Route path="terms" element={<Terms />} />
         </Route>
       </Routes>
     </Router>

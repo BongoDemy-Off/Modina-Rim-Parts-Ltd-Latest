@@ -1,10 +1,22 @@
-import React, { useState } from 'react';
-import { motion } from 'motion/react';
-import { Bot, Send, Settings, Cpu, ShieldCheck } from 'lucide-react';
+import React, { useRef, useState } from 'react';
+import { motion, useInView } from 'motion/react';
+import { Link } from 'react-router-dom';
+import { ArrowRight, ChevronRight } from 'lucide-react';
 import { GoogleGenAI } from '@google/genai';
 import ReactMarkdown from 'react-markdown';
 
 export default function AIEngineer() {
+  const letters = "AI ENGINEER".split("");
+
+  const introRef = useRef(null);
+  const introInView = useInView(introRef, { once: true, margin: '-80px' });
+
+  const interfaceRef = useRef(null);
+  const interfaceInView = useInView(interfaceRef, { once: true, margin: '-60px' });
+
+  const ctaRef = useRef(null);
+  const ctaInView = useInView(ctaRef, { once: true, margin: '-60px' });
+
   const [query, setQuery] = useState('');
   const [response, setResponse] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -36,135 +48,303 @@ export default function AIEngineer() {
     }
   };
 
-  return (
-    <div className="min-h-screen pt-36 pb-28 bg-modina-dark relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-modina-red/5 rounded-full blur-[120px] pointer-events-none"></div>
-      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-[100px] pointer-events-none"></div>
+  const suggestedPrompts = [
+    "What is the tensile strength of your motorcycle rim alloy?",
+    "Which products are ISO 9001:2015 certified?",
+    "What are the CNC machining tolerances for rims?",
+    "How do I request a product specification sheet?"
+  ];
 
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-14 lg:gap-16">
-          
-          {/* Left Column: Info */}
+  return (
+    <div className="min-h-screen bg-[#050505] text-white pt-[80px]">
+      {/* SECTION 1 — HERO */}
+      <section className="w-full py-20 lg:py-28 flex flex-col items-center text-center">
+        <div className="font-mono text-[10px] tracking-[0.25em] text-[#2a2a2a] uppercase flex items-center gap-2 justify-center mb-10">
+          <Link to="/">Home</Link>
+          <ChevronRight className="w-2.5 h-2.5 text-[#1e1e1e]" />
+          <span className="text-[#E52525]">AI Engineer</span>
+        </div>
+
+        <hr className="w-32 border-[#1a1a1a] mx-auto mb-10" />
+
+        <h1 className="text-6xl md:text-7xl lg:text-8xl xl:text-[9rem] font-light tracking-[0.3em] text-white uppercase leading-none flex items-center justify-center flex-wrap">
+          {letters.map((letter, i) => (
+            letter === " " ? (
+              <span key={i} className="w-[0.3em]">&nbsp;</span>
+            ) : (
+              <motion.span
+                key={i}
+                initial={{ opacity: 0, y: 28 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: i * 0.055, ease: [0.16, 1, 0.3, 1] }}
+              >
+                {letter}
+              </motion.span>
+            )
+          ))}
+        </h1>
+
+        <motion.div
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ duration: 0.9, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
+          style={{ transformOrigin: 'left' }}
+          className="w-32 h-[1px] bg-[#E52525] mx-auto my-10"
+        />
+
+        <p className="font-mono text-[10px] md:text-[11px] tracking-[0.3em] text-[#2a2a2a] uppercase flex items-center justify-center flex-wrap gap-2">
+          <span>Modina Rim & Parts Ltd.</span>
+          <span className="text-[#E52525]">·</span>
+          <span>Powered by Gemini AI</span>
+          <span className="text-[#E52525]">·</span>
+          <span>Est. 2010</span>
+        </p>
+
+        <hr className="w-full max-w-md border-[#1a1a1a] mx-auto mt-10 mb-10" />
+
+        <div className="flex items-center justify-center gap-0">
+          <div className="flex flex-col items-center px-10 md:px-14">
+            <span className="text-2xl md:text-3xl font-light text-[#E52525]">AI</span>
+            <span className="font-mono text-[9px] tracking-[0.3em] text-[#252525] uppercase mt-1">Powered</span>
+          </div>
+          <span className="w-[0.5px] h-8 bg-[#1a1a1a]" />
+          <div className="flex flex-col items-center px-10 md:px-14">
+            <span className="text-2xl md:text-3xl font-light text-[#E52525]">24/7</span>
+            <span className="font-mono text-[9px] tracking-[0.3em] text-[#252525] uppercase mt-1">Available</span>
+          </div>
+          <span className="w-[0.5px] h-8 bg-[#1a1a1a]" />
+          <div className="flex flex-col items-center px-10 md:px-14">
+            <span className="text-2xl md:text-3xl font-light text-[#E52525]">ISO</span>
+            <span className="font-mono text-[9px] tracking-[0.3em] text-[#252525] uppercase mt-1">Knowledge Base</span>
+          </div>
+        </div>
+
+        <div className="flex flex-col items-center gap-3 mt-14">
           <motion.div 
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            className="lg:col-span-5 flex flex-col justify-center"
+            initial={{ scaleY: 0 }}
+            animate={{ scaleY: 1 }}
+            transition={{ duration: 1, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
+            style={{ transformOrigin: 'top' }}
+            className="w-[0.5px] h-10 bg-[#1a1a1a]" 
+          />
+          <span className="font-mono text-[9px] tracking-[0.3em] text-[#E52525] uppercase">Scroll</span>
+        </div>
+      </section>
+
+      {/* SECTION 2 — INTRO SPLIT */}
+      <section className="w-full border-t border-[#141414]" ref={introRef}>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-[1px] bg-[#141414]">
+          <motion.div 
+            initial={{ opacity: 0, x: -40 }}
+            animate={introInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            className="bg-[#050505] p-10 lg:p-16 flex flex-col justify-center"
           >
-            <div className="inline-flex items-center gap-2 bg-modina-red/10 text-modina-red px-4 py-2 rounded-full text-sm font-medium mb-7 w-fit border border-modina-red/20">
-              <Cpu className="w-4 h-4" />
-              Powered by Gemini AI
+            <p className="text-[160px] font-light text-[#0a0a0a] leading-none select-none tracking-tight">
+              AI
+            </p>
+            <p className="font-mono text-[10px] tracking-[0.3em] text-[#E52525] uppercase mt-2">
+              — Intelligent Assistant
+            </p>
+            <p className="font-mono text-[9px] tracking-[0.25em] text-[#252525] uppercase mt-1">
+              Technical Expertise On Demand
+            </p>
+          </motion.div>
+
+          <motion.div 
+            initial={{ opacity: 0, x: 40 }}
+            animate={introInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            className="bg-[#050505] p-10 lg:p-16 flex flex-col justify-center"
+          >
+            <p className="font-mono text-[9px] tracking-[0.3em] text-[#E52525] uppercase mb-8">
+              — What It Does
+            </p>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-white uppercase tracking-tight leading-tight mb-8">
+              Expert Technical Answers Instantly
+            </h2>
+            <p className="text-[13px] text-[#3a3a3a] font-light leading-relaxed max-w-lg mb-5">
+              Our AI Engineer is trained on Modina's full knowledge base — product specifications, material science, ISO standards, and manufacturing processes.
+            </p>
+            <p className="text-[13px] text-[#3a3a3a] font-light leading-relaxed max-w-lg mb-5">
+              Ask anything about tensile strength, machining tolerances, certification requirements, or product compatibility. Get precise, professional answers instantly.
+            </p>
+            
+            <div className="mt-2">
+              <div className="flex items-start gap-4 mb-4">
+                <span className="font-mono text-[8px] text-[#E52525] mt-0.5">—</span>
+                <span className="text-[11px] text-[#444] font-light">Material specifications and alloy composition data</span>
+              </div>
+              <div className="flex items-start gap-4 mb-4">
+                <span className="font-mono text-[8px] text-[#E52525] mt-0.5">—</span>
+                <span className="text-[11px] text-[#444] font-light">ISO 9001:2015 compliance and certification guidance</span>
+              </div>
+              <div className="flex items-start gap-4 mb-4">
+                <span className="font-mono text-[8px] text-[#E52525] mt-0.5">—</span>
+                <span className="text-[11px] text-[#444] font-light">CNC machining tolerances and dimensional accuracy</span>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* SECTION 3 — AI INTERFACE */}
+      <section className="w-full border-t border-[#141414] bg-[#080808]" ref={interfaceRef}>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-[1px] bg-[#141414]">
+          
+          {/* LEFT — CAPABILITIES PANEL */}
+          <motion.div 
+            initial={{ opacity: 0, x: -40 }}
+            animate={interfaceInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            className="bg-[#050505] p-10 lg:p-16 border-r-0 lg:border-r border-[#141414]"
+          >
+            <p className="font-mono text-[9px] tracking-[0.3em] text-[#E52525] uppercase mb-8">— Capabilities</p>
+            
+            <div className="group bg-[#080808] p-6 mb-[1px] relative cursor-default">
+              <div className="absolute top-0 left-0 w-0 group-hover:w-full h-[1px] bg-[#E52525] transition-all duration-500" />
+              <p className="font-mono text-[11px] text-[#E52525] uppercase mb-3">—01</p>
+              <h3 className="text-lg font-light text-white uppercase tracking-[0.1em] mb-3">Technical Specifications</h3>
+              <p className="text-[12px] text-[#333] font-light leading-relaxed">Detailed data on alloy grades, dimensional tolerances, load ratings, and material properties for all 21 SKUs.</p>
             </div>
             
-            <h1 className="text-4xl md:text-6xl font-display font-bold text-white mb-7 leading-tight">
-              Consult Our <br />
-              <span className="text-modina-red">AI Engineer</span>
-            </h1>
+            <div className="group bg-[#080808] p-6 mb-[1px] relative cursor-default">
+              <div className="absolute top-0 left-0 w-0 group-hover:w-full h-[1px] bg-[#E52525] transition-all duration-500" />
+              <p className="font-mono text-[11px] text-[#E52525] uppercase mb-3">—02</p>
+              <h3 className="text-lg font-light text-white uppercase tracking-[0.1em] mb-3">Quality Standards</h3>
+              <p className="text-[12px] text-[#333] font-light leading-relaxed">ISO 9001:2015 compliance details, BSTI certification requirements, and internal QC process documentation.</p>
+            </div>
             
-            <p className="text-gray-400 text-lg mb-12 leading-relaxed">
-              Get instant, expert-level technical insights on manufacturing processes, material specifications, tolerances, and quality standards for all Modina products.
-            </p>
+            <div className="group bg-[#080808] p-6 mb-[1px] relative cursor-default">
+              <div className="absolute top-0 left-0 w-0 group-hover:w-full h-[1px] bg-[#E52525] transition-all duration-500" />
+              <p className="font-mono text-[11px] text-[#E52525] uppercase mb-3">—03</p>
+              <h3 className="text-lg font-light text-white uppercase tracking-[0.1em] mb-3">Manufacturing Insights</h3>
+              <p className="text-[12px] text-[#333] font-light leading-relaxed">CNC machining parameters, heat treatment specifications, surface finishing processes, and production tolerances.</p>
+            </div>
 
-            <div className="space-y-7">
-              {[
-                { icon: Settings, title: 'Technical Specifications', desc: 'Detailed specs on alloys, dimensions, and load capacities.' },
-                { icon: ShieldCheck, title: 'Quality Standards', desc: 'Information on ISO compliance and testing methodologies.' },
-                { icon: Bot, title: 'Manufacturing Processes', desc: 'Insights into our forging, CNC machining, and finishing.' }
-              ].map((feature, idx) => (
-                <div key={idx} className="flex items-start gap-5">
-                  <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
-                    <feature.icon className="w-6 h-6 text-modina-red" />
-                  </div>
-                  <div>
-                    <h3 className="text-white font-display font-semibold mb-1">{feature.title}</h3>
-                    <p className="text-gray-400 text-sm leading-relaxed">{feature.desc}</p>
-                  </div>
-                </div>
+            <p className="font-mono text-[9px] tracking-[0.3em] text-[#E52525] uppercase mt-8 mb-4">— Try Asking</p>
+            <div className="flex flex-col">
+              {suggestedPrompts.map((prompt, idx) => (
+                <button 
+                  key={idx}
+                  onClick={() => setQuery(prompt)}
+                  className="w-full text-left border-b border-[#141414] py-4 font-mono text-[10px] tracking-[0.15em] text-[#252525] uppercase hover:text-white transition-colors flex items-center justify-between group/prompt"
+                >
+                  {prompt}
+                  <ChevronRight className="w-3 h-3 text-[#1e1e1e] group-hover/prompt:text-[#444] transition-colors" />
+                </button>
               ))}
             </div>
           </motion.div>
 
-          {/* Right Column: Interactive Interface */}
+          {/* RIGHT — AI CHAT INTERFACE */}
           <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="lg:col-span-7"
+            initial={{ opacity: 0, x: 40 }}
+            animate={interfaceInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            className="bg-[#050505] p-10 lg:p-16 flex flex-col"
           >
-            <div className="bg-[#16181F] border border-white/10 rounded-3xl p-6 md:p-10 shadow-2xl min-h-[600px] flex flex-col">
-              
-              {/* Output Area */}
-              <div className="flex-1 bg-[#0a0a0a] rounded-2xl border border-white/5 p-6 overflow-y-auto mb-6 relative min-h-[320px]">
-                {!response && !isLoading && (
-                  <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 opacity-50">
-                    <Bot className="w-16 h-16 text-gray-500 mb-5" />
-                    <p className="text-gray-400 font-display text-sm leading-relaxed max-w-xs">
-                      Ask me anything about Modina's manufacturing capabilities, product specs, or engineering standards.
-                    </p>
-                  </div>
-                )}
-                
-                {isLoading && (
-                  <div className="flex items-center gap-3 text-modina-red font-display">
-                    <div className="w-5 h-5 border-2 border-modina-red border-t-transparent rounded-full animate-spin"></div>
-                    Analyzing technical databases...
-                  </div>
-                )}
+            <p className="font-mono text-[9px] tracking-[0.3em] text-[#E52525] uppercase mb-8">— Ask the AI</p>
+            
+            <div className="w-full min-h-[280px] bg-[#080808] border border-[#141414] p-6 mb-6 relative flex flex-col">
+              {!response && !isLoading && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <p className="font-mono text-[9px] tracking-[0.25em] text-[#1e1e1e] uppercase text-center">
+                    — Awaiting your inquiry —
+                  </p>
+                </div>
+              )}
 
-                {response && !isLoading && (
-                  <div className="prose prose-invert max-w-none">
-                    <div className="flex items-start gap-4 mb-6">
-                      <div className="w-10 h-10 rounded-full bg-modina-red flex items-center justify-center shrink-0 mt-1">
-                        <Bot className="w-5 h-5 text-white" />
-                      </div>
-                      <div className="bg-white/5 border border-white/10 rounded-2xl p-6 text-gray-300 leading-relaxed">
-                        <ReactMarkdown className="prose prose-invert prose-sm max-w-none prose-headings:text-white prose-p:text-gray-300 prose-strong:text-white prose-li:text-gray-300">{response}</ReactMarkdown>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
+              {isLoading && (
+                <div className="absolute inset-0 flex items-center justify-center gap-3">
+                  <div className="w-1.5 h-1.5 bg-[#E52525] rounded-full animate-pulse" />
+                  <p className="font-mono text-[10px] tracking-[0.2em] text-[#252525] uppercase">
+                    Consulting knowledge base...
+                  </p>
+                </div>
+              )}
 
-              {/* Input Area */}
-              <form onSubmit={handleInquiry} className="relative">
-                <textarea
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  placeholder="E.g., What is the tensile strength of the alloy used in your premium motorcycle rims?"
-                  className="w-full bg-[#0a0a0a] border border-white/10 rounded-2xl py-4 pl-6 pr-16 text-white placeholder-gray-500 focus:outline-none focus:border-modina-red transition-colors resize-none h-28"
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' && !e.shiftKey) {
-                      e.preventDefault();
-                      handleInquiry(e);
-                    }
-                  }}
-                />
-                <button
-                  type="submit"
-                  disabled={!query.trim() || isLoading}
-                  className="absolute bottom-4 right-4 w-12 h-12 bg-modina-red rounded-xl flex items-center justify-center text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-red-700 transition-colors shadow-lg"
-                >
-                  <Send className="w-5 h-5 ml-1" />
-                </button>
-              </form>
-
-              <div className="flex flex-wrap gap-2 mt-4">
-                {['Tensile strength of motorcycle rim alloy?', 'ISO certification details?', 'CNC machining tolerances?'].map((prompt) => (
-                  <button key={prompt} onClick={() => setQuery(prompt)} className="text-xs text-gray-400 border border-white/10 rounded-full px-3 py-1.5 hover:border-modina-red hover:text-modina-red transition-all duration-200">
-                    {prompt}
-                  </button>
-                ))}
-              </div>
-
-              <p className="text-xs text-gray-500 text-center mt-5">
-                AI responses are generated based on Modina's technical knowledge base. For official documentation, please visit the Download Center.
-              </p>
+              {response && !isLoading && (
+                <div className="prose-none h-full overflow-y-auto pr-2">
+                  <p className="font-mono text-[9px] tracking-[0.3em] text-[#E52525] uppercase mb-4">— Response</p>
+                  <ReactMarkdown className="text-[13px] text-[#555] font-light leading-relaxed [&_strong]:text-white [&_strong]:font-normal [&_ul]:mt-3 [&_li]:text-[#444] [&_li]:mb-2">
+                    {response}
+                  </ReactMarkdown>
+                </div>
+              )}
             </div>
+
+            <form onSubmit={handleInquiry} className="flex flex-col mt-auto">
+              <label className="font-mono text-[9px] tracking-[0.2em] text-[#252525] uppercase mb-3">
+                Your Question
+              </label>
+              <textarea
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="e.g. What alloy is used in the Easy Bike rim?"
+                className="w-full bg-transparent border-b border-[#1a1a1a] focus:border-[#E52525] outline-none text-[13px] text-white py-3 font-light placeholder:text-[#1e1e1e] resize-none h-24 transition-colors rounded-none"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleInquiry(e);
+                  }
+                }}
+              />
+              <button
+                type="submit"
+                disabled={!query.trim() || isLoading}
+                className="w-full mt-6 bg-[#E52525] text-white font-mono text-[10px] tracking-[0.3em] uppercase py-4 hover:bg-[#cc1f1f] transition-colors flex items-center justify-center gap-4 rounded-none disabled:opacity-30 disabled:cursor-not-allowed"
+              >
+                SUBMIT INQUIRY
+                <ArrowRight className="w-3 h-3" />
+              </button>
+              <p className="font-mono text-[8px] tracking-[0.2em] text-[#1a1a1a] uppercase mt-4 text-center">
+                AI responses are for guidance only — contact sales for official documentation
+              </p>
+            </form>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* SECTION 4 — CTA BANNER */}
+      <section className="w-full border-t border-[#141414] py-24 lg:py-32 bg-[#050505]" ref={ctaRef}>
+        <div className="container mx-auto px-6 md:px-12 lg:px-24 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-10">
+          <motion.div 
+            initial={{ opacity: 0, x: -24 }}
+            animate={ctaInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="relative pl-6"
+          >
+            <motion.div
+              initial={{ scaleY: 0 }}
+              animate={ctaInView ? { scaleY: 1 } : {}}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              style={{ transformOrigin: 'top' }}
+              className="absolute left-0 top-0 w-1 h-20 bg-[#E52525]"
+            />
+            <p className="font-mono text-[9px] tracking-[0.3em] text-[#E52525] uppercase mb-4">— Go Further</p>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-[0.05em] uppercase leading-tight">
+              Explore Our<br />Product Range
+            </h2>
           </motion.div>
 
+          <motion.div 
+            initial={{ opacity: 0, x: 24 }}
+            animate={ctaInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            className="flex flex-col sm:flex-row gap-4"
+          >
+            <Link to="/products" className="bg-[#E52525] text-white font-mono text-[10px] tracking-[0.3em] uppercase px-10 py-4 hover:bg-[#cc1f1f] transition-colors flex items-center gap-4 rounded-none">
+              View Catalog
+              <ArrowRight className="w-3 h-3" />
+            </Link>
+            <Link to="/contact" className="border border-[#1a1a1a] text-[#2a2a2a] font-mono text-[10px] tracking-[0.3em] uppercase px-10 py-4 hover:border-[#333] hover:text-[#555] transition-colors flex items-center gap-4 rounded-none">
+              Contact Sales
+              <ArrowRight className="w-3 h-3" />
+            </Link>
+          </motion.div>
         </div>
-      </div>
+      </section>
     </div>
   );
 }
